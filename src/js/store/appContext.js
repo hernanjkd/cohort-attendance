@@ -26,15 +26,16 @@ const injectContext = PassedComponent => {
 			fetch(url)
 				.then(response => response.json())
 				.then(data => {
-					this.setState({ data });
+					data.log.map(e => {
+						// Creates the "day" key for the incoming data
+						e.day = e.data ? JSON.parse(e.data).day : null;
+						// Sets the "created date" in Date format
+						e.created_at.date = new Date(e.created_at.date);
+					});
+					// Sort data by "created date"
+					data.log.sort((a, b) => (a.created_at.date > b.created_at.date ? 1 : -1));
+					this.setState({ store: data });
 				});
-			// fetch(url)
-			// .then(response => response.json())
-			// .then(data => {
-			// 	let { store } = this.state;
-			// 	store.contactList = data.reverse();
-			// 	this.setState({ store });
-			// });
 		}
 
 		render() {
