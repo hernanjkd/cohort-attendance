@@ -22,7 +22,8 @@ const injectContext = PassedComponent => {
 		}
 
 		componentDidMount() {
-			const url = "https://assets.breatheco.de/apis/activity/user/martinprospers1@gmail.com";
+			// const url = "https://assets.breatheco.de/apis/activity/user/martinprospers1@gmail.com";
+			const url = "https://assets.breatheco.de/apis/activity/user/hernanjkd@gmail.com";
 			fetch(url)
 				.then(response => response.json())
 				.then(data => {

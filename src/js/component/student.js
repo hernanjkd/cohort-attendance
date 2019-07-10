@@ -1,24 +1,38 @@
+import React from "react";
 import { Context } from "../store/appContext";
 import { PropTypes } from "prop-types";
 import GreenThumb from "../../img/greenThumb.png";
 import RedThumb from "../../img/redThumb.png";
 
 export const Student = () => {
-    return (
-        <div>
-            <span>{props.name}</span>
-            {props.assistance.map((item, index) => {
-                return (
-                    <span key={index}>
-                        <img src={((item.out - item.in) / 9) < 90 ? RedThumb : GreenThumb} />
-                    </span>
-                )
-            })}
-        </div>
-    )
+	return (
+		<Context.Consumer>
+			{({ store }) => {
+				let attendanceArray = store.log && store.log.filter(e => e.slug.includes("attendance"));
+				return (
+					<div className="text-center mt-5">
+						<h1>Cohort Report</h1>
+						<p>
+							{store.log &&
+								attendanceArray.map((e, i) => {
+									let d = e.created_at.date;
+									return (
+										<div key={i}>
+											<span>{d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear()}</span>
+											<span className="p-3">{e.day ? e.day : "null"}</span>
+											<img src={e.slug === "classroom_attendance" ? GreenThumb : RedThumb} />
+										</div>
+									);
+								})}
+						</p>
+					</div>
+				);
+			}}
+		</Context.Consumer>
+	);
 };
 
 Student.propTypes = {
-    name: PropTypes.string,
-    assistance: PropTypes.array
-}
+	name: PropTypes.string,
+	assistance: PropTypes.array
+};
