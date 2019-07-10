@@ -22,11 +22,19 @@ const injectContext = PassedComponent => {
 		}
 
 		componentDidMount() {
-			/**
-			 * EDIT THIS!
-			 * This function is the equivalent to "window.onLoad", it only run once on the entire application lifetime
-			 * you should do your ajax requests or fetch api requests here
-			 **/
+			const url = "https://assets.breatheco.de/apis/activity/user/martinprospers1@gmail.com";
+			fetch(url)
+				.then(response => response.json())
+				.then(data => {
+					this.setState({ data });
+				});
+			// fetch(url)
+			// .then(response => response.json())
+			// .then(data => {
+			// 	let { store } = this.state;
+			// 	store.contactList = data.reverse();
+			// 	this.setState({ store });
+			// });
 		}
 
 		render() {
