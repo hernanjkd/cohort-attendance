@@ -22,21 +22,35 @@ const injectContext = PassedComponent => {
 		}
 
 		componentDidMount() {
-			// const url = "https://assets.breatheco.de/apis/activity/user/martinprospers1@gmail.com";
-			const url = "https://assets.breatheco.de/apis/activity/user/hernanjkd@gmail.com";
+			// const url = "https://api.breatheco.de/cohorts/?access_token=bdba9802085fbb134d7dafbc76f0f1d53808f294";
+			const url =
+				"https://assets.breatheco.de/apis/activity/user/hernanjkd@gmail.com?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjbGllbnRJZCI6NTUzLCJpYXQiOjE1NjI3OTg1NjYsImV4cCI6MzMxMTk3NTA1NjZ9.tgDRDOrDCNysOYmgMNI3p5caoeAU-e--jhGB3XieVWQ";
+
+			// All cohorts
 			fetch(url)
-				.then(response => response.json())
+				.then(response => alert())
 				.then(data => {
-					data.log.map(e => {
-						// Creates the "day" key for the incoming data
-						e.day = e.data ? JSON.parse(e.data).day : null;
-						// Sets the "created date" in Date format
-						e.created_at.date = new Date(e.created_at.date);
-					});
-					// Sort data by "created date"
-					data.log.sort((a, b) => (a.created_at.date > b.created_at.date ? 1 : -1));
-					this.setState({ store: data });
+					// const cohorts = data.data.map(e => {
+					// 	return { slug: e.slug, name: e.name };
+					// });
+					alert();
+					this.setState({ store: "data" });
 				});
+
+			// Single student activity
+			// fetch(url)
+			// 	.then(response => response.json())
+			// 	.then(data => {
+			// 		data.log.map(e => {
+			// 			// Creates the "day" key for the incoming data
+			// 			e.day = e.data ? JSON.parse(e.data).day : null;
+			// 			// Sets the "created date" in Date format
+			// 			e.created_at.date = new Date(e.created_at.date);
+			// 		});
+			// 		// Sort data by "created date"
+			// 		data.log.sort((a, b) => (a.created_at.date > b.created_at.date ? 1 : -1));
+			// 		this.setState({ store: data });
+			// 	});
 		}
 
 		render() {

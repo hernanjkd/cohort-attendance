@@ -33,6 +33,5 @@ export const Student = () => {
 };
 
 Student.propTypes = {
-	name: PropTypes.string,
-	assistance: PropTypes.array
+	studentData: PropTypes.object
 };
