@@ -9,7 +9,15 @@ export const Home = () => {
 	return (
 		<Context.Consumer>
 			{({ store }) => {
-				return <div className="container" />;
+				return (
+					<div className="container">
+						cohorts search
+						<div className="row">
+							<div className="col-3">student name</div>
+							<div className="col">student assistance</div>
+						</div>
+					</div>
+				);
 			}}
 		</Context.Consumer>
 	);
