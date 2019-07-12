@@ -36,6 +36,7 @@ const injectContext = PassedComponent => {
 						let cohorts = data.data.map(e => {
 							return { slug: e.slug, name: e.name };
 						});
+						cohorts.reverse();
 						return { store: { ...store, cohorts } };
 					});
 				});
