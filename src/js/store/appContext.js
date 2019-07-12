@@ -41,16 +41,16 @@ const injectContext = PassedComponent => {
 					});
 				});
 
-			// A WAY OF SAVING TO STORE LEAVING THE OLD DATA
+			// // A WAY OF SAVING TO STORE LEAVING THE OLD DATA
 			// fetch(url)
 			// 	.then(response => response.json())
 			// 	.then(data => {
 			// 		this.setState(state => {
-			//			return {store: {...state.store, data} }
-			//		});
-			//	});
-
-			// ANOTHER WAY OF SAVING TO STORE LEAVING THE OLD DATA
+			// 			return {store: {...state.store, data} }
+			// 		});
+			// 	});
+			//
+			// // ANOTHER WAY OF SAVING TO STORE LEAVING THE OLD DATA
 			// fetch(url)
 			// 	.then(response => response.json())
 			// 	.then(data => {
