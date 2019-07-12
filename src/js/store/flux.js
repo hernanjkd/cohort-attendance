@@ -3,14 +3,12 @@ const getState = ({ getStore, setStore }) => {
 		store: [],
 		actions: {
 			getStudentsFromCohort: cohort => {
-				const url = `https://api.breatheco.de/students/cohort/${cohort}?access_token=bdba9802085fbb134d7dafbc76f0f1d53808f294`;
+				const url = `https://api.breatheco.de/students/cohort/${cohort}?access_token=88f458c8d5d9fc67115f9fca939d78aa2a8ed101`;
 				fetch(url, { cache: "no-cache" })
 					.then(response => response.json())
-					.then(data =>
-						setStore(({ store }) => {
-							return { store: { ...store, data } };
-						})
-					);
+					.then(data => {
+						setStore({ students: data });
+					});
 			}
 		}
 	};

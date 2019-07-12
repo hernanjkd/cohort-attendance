@@ -21,10 +21,19 @@ export const Home = () => {
 									);
 								})}
 						</select>
-						<div className="row">
-							<div className="col-3">student name</div>
-							<div className="col">student assistance</div>
-						</div>
+						{store.students && !store.students.data.length ? (
+							<div>STUDENT INFORMATION NOT AVAILABLE</div>
+						) : (
+							<div className="row">
+								<div className="col-3">Everyone</div>
+								<div className="col">student assistance</div>
+							</div>
+						)}
+
+						{store.students &&
+							store.students.data.map((e, i) => {
+								return <Student key={i} studentData={e} />;
+							})}
 					</div>
 				);
 			}}
