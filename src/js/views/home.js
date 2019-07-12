@@ -11,14 +11,11 @@ export const Home = () => {
 			{({ store, actions }) => {
 				return (
 					<div className="container">
-						<select>
+						<select onChange={e => actions.getStudentsFromCohort(e.target.value)}>
 							{store.cohorts &&
 								store.cohorts.map((e, i) => {
 									return (
-										<option
-											key={i}
-											value={e.name}
-											onClick={() => actions.getStudentsFromCohort(e.slug)}>
+										<option key={i} value={e.slug}>
 											{e.name}
 										</option>
 									);

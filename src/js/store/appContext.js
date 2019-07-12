@@ -34,9 +34,9 @@ const injectContext = PassedComponent => {
 				.then(data => {
 					this.setState(({ store }) => {
 						let cohorts = data.data.map(e => {
-							return { slug: e.slug, name: e.name };
+							return { slug: e.slug, name: e.name, kickoff_date: new Date(e.kickoff_date) };
 						});
-						cohorts.reverse();
+						cohorts.sort((a, b) => (a.kickoff_date < b.kickoff_date ? 1 : -1));
 						return { store: { ...store, cohorts } };
 					});
 				});
