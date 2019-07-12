@@ -49,7 +49,7 @@ const injectContext = PassedComponent => {
 			// 			return {store: {...state.store, data} }
 			// 		});
 			// 	});
-			//
+
 			// // ANOTHER WAY OF SAVING TO STORE LEAVING THE OLD DATA
 			// fetch(url)
 			// 	.then(response => response.json())
