@@ -1,4 +1,4 @@
-const getState = ({ getStore, setStore }) => {
+const getState = ({ setStore }) => {
 	return {
 		store: [],
 		actions: {
@@ -7,7 +7,21 @@ const getState = ({ getStore, setStore }) => {
 				fetch(url, { cache: "no-cache" })
 					.then(response => response.json())
 					.then(data => {
-						setStore({ students: data });
+						const students = data.data.map(e => {
+							return {
+								// id: e.id,
+								// // Have all names with the same format
+								// name:
+								// 	e.first_name.charAt(0).toUpperCase() +
+								// 	e.first_name.toLowerCase().slice(1) +
+								// 	" " +
+								// 	e.last_name.charAt(0).toUpperCase() +
+								// 	e.last_name.toLowerCase().slice(1),
+								data: e,
+								name: "machu"
+							};
+						});
+						setStore({ students: students });
 					});
 			}
 		}
