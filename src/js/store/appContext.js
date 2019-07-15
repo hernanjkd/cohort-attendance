@@ -28,7 +28,7 @@ const injectContext = PassedComponent => {
 			// fetch(url, { cache: "no-cache" }).then(response => alert());
 
 			// All cohorts
-			const url = "https://api.breatheco.de/cohorts/?access_token=bdba9802085fbb134d7dafbc76f0f1d53808f294";
+			const url = "https://api.breatheco.de/cohorts/?access_token=d0feed2a021a9aee7036cdc56c5bd16bca1c2603";
 			fetch(url, { cache: "no-cache" })
 				.then(response => response.json())
 				.then(data => {
@@ -46,7 +46,7 @@ const injectContext = PassedComponent => {
 			// 	.then(response => response.json())
 			// 	.then(data => {
 			// 		this.setState(state => {
-			// 			return {store: {...state.store, data} }
+			// 			return { store: { ...state.store, data } };
 			// 		});
 			// 	});
 
@@ -55,7 +55,7 @@ const injectContext = PassedComponent => {
 			// 	.then(response => response.json())
 			// 	.then(data => {
 			// 		const store = this.state.store;
-			// 		this.setState({store: {...store, data} });
+			// 		this.setState({ store: { ...store, data } });
 			// 	});
 
 			// Single student activity
