@@ -2,8 +2,8 @@ const getState = ({ setStore }) => {
 	return {
 		store: [],
 		actions: {
-			getStudentsFromCohort: cohort => {
-				const url = `https://api.breatheco.de/students/cohort/${cohort}?access_token=d0feed2a021a9aee7036cdc56c5bd16bca1c2603`;
+			getStudentsAndActivities: cohortSlug => {
+				let url = `https://api.breatheco.de/students/cohort/${cohortSlug}?access_token=d0feed2a021a9aee7036cdc56c5bd16bca1c2603`;
 				fetch(url, { cache: "no-cache" })
 					.then(response => response.json())
 					.then(data => {
@@ -44,6 +44,8 @@ const getState = ({ setStore }) => {
 						/****************************************************
 						 *  FETCH COHORT ACTIVITIES AND MATCH WITH STUDENT
 						 ****************************************************/
+						url = `https://assets.breatheco.de/apis/activity/cohort/${cohortSlug}?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjbGllbnRJZCI6NTUzLCJpYXQiOjE1NjI3OTg1NjYsImV4cCI6MzMxMTk3NTA1NjZ9.tgDRDOrDCNysOYmgMNI3p5caoeAU-e--jhGB3XieVWQ`;
+						fetch(url, { cache: "no-cache" }).then(response => response.json());
 
 						setStore({ students: students });
 					});

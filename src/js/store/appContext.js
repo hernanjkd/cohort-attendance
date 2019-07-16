@@ -1,11 +1,8 @@
 import React from "react";
 import getState from "./flux.js";
 
-// Don't change, here is where we initialize our context, by default its just going to be Null.
 export const Context = React.createContext(null);
 
-// This function injects the global store to any view/component where you want to use it, we will inject the context to Layout.jsx, you can see it here:
-// https://github.com/4GeeksAcademy/react-hello-webapp/blob/master/src/js/layout.jsx#L35
 const injectContext = PassedComponent => {
 	class StoreWrapper extends React.Component {
 		constructor(props) {
@@ -33,15 +30,12 @@ const injectContext = PassedComponent => {
 				.then(response => response.json())
 				.then(data => {
 					this.setState(({ store }) => {
-						let cohorts = data.data.map(e => {
-							return { slug: e.slug, name: e.name, kickoff_date: new Date(e.kickoff_date) };
-						});
-						cohorts.sort((a, b) => (a.kickoff_date < b.kickoff_date ? 1 : -1));
-						return { store: { ...store, cohorts } };
+						data.data.sort((a, b) => (new Date(a.kickoff_date) < new Date(b.kickoff_date) ? 1 : -1));
+						return { store: { ...store, cohorts: data.data } };
 					});
 				});
 
-			// // A WAY OF SAVING TO STORE LEAVING THE OLD DATA
+			// // A WAY OF SAVING TO STORE LEAVING THE OLD DATA, CREATES A NEW KEY DATA WITH THE VALUE OF DATA
 			// fetch(url)
 			// 	.then(response => response.json())
 			// 	.then(data => {
@@ -50,12 +44,12 @@ const injectContext = PassedComponent => {
 			// 		});
 			// 	});
 
-			// // ANOTHER WAY OF SAVING TO STORE LEAVING THE OLD DATA
+			// // ANOTHER WAY OF SAVING TO STORE LEAVING THE OLD DATA, CREATES A NEW KEY CALLED COHORTS
 			// fetch(url)
 			// 	.then(response => response.json())
 			// 	.then(data => {
 			// 		const store = this.state.store;
-			// 		this.setState({ store: { ...store, data } });
+			// 		this.setState({ store: { ...store, cohorts: data } });
 			// 	});
 
 			// Single student activity
@@ -77,9 +71,6 @@ const injectContext = PassedComponent => {
 		}
 
 		render() {
-			// the initial value for the context its not null anymore, but the current state of this component,
-			// the context will have a getStore and setStore functions available then, because they were declared
-			// on the state of this component
 			return (
 				<Context.Provider value={this.state}>
 					<PassedComponent {...this.props} />
