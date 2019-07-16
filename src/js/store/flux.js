@@ -7,17 +7,30 @@ const getState = ({ setStore }) => {
 				fetch(url, { cache: "no-cache" })
 					.then(response => response.json())
 					.then(data => {
+						/****************************
+						 *   FORMAT STUDENT NAMES
+						 ****************************/
 						const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
 						let students = data.data.map(e => {
-							//
 							// first_name: "null null", last_name: ""
 							if (e.first_name.includes("null") && e.last_name == "") return { ...e, name: e.email };
 
 							let newName = "";
 							let first = "";
+							let countUpperCase = 0;
 							// first_name: "JohnDoe", last_name: ""
-							for (let char of e.first_name) first += char == char.toUpperCase() ? " " + char : char;
+							// first_name: "JOHNDOE", last_name: ""
+							for (let char of e.first_name) {
+								if (countUpperCase == 4) {
+									first = e.first_name;
+									break;
+								}
+								if (char == char.toUpperCase()) {
+									first += " " + char;
+									countUpperCase++;
+								} else first += char;
+							}
 
 							// first_name: "John doe", last_name: null
 							// first_name: "john JIMMY", last_name: "JOE Doe"
@@ -27,6 +40,11 @@ const getState = ({ setStore }) => {
 
 							return { ...e, name: newName.slice(1) };
 						});
+
+						/****************************************************
+						 *  FETCH COHORT ACTIVITIES AND MATCH WITH STUDENT
+						 ****************************************************/
+
 						setStore({ students: students });
 					});
 			}
