@@ -7,11 +7,7 @@ const getState = ({ setStore }) => {
 				fetch(url, { cache: "no-cache" })
 					.then(response => response.json())
 					.then(data => {
-						// let students = data.data.filter(
-						// 	e =>
-						// 		(!e.first_name.length && !e.last_name.length) ||
-						// 		!e.last_namee.first_name.includes("null")
-						// );
+						// let students = data.data.filter(e => !e.first_name.includes("null") );
 						let students = data.data.map(e => {
 							return {
 								// id: e.id,
@@ -22,8 +18,8 @@ const getState = ({ setStore }) => {
 								// 	" " +
 								// 	e.last_name.charAt(0).toUpperCase() +
 								// 	e.last_name.toLowerCase().slice(1),
-								data: e,
-								name: e.first_name + " " + e.last_name;
+								...e,
+								id: e.id
 							};
 						});
 						setStore({ students: students });

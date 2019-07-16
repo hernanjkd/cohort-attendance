@@ -8,7 +8,7 @@ export const Student = props => {
 	return (
 		<div className="row">
 			<div className="col-3 mx-4 my-3 d-flex justify-content-between">
-				<span>{obj.name}</span> <span>85%</span>
+				<span>{"first: " + obj.first_name + " . last: " + obj.last_name}</span> <span>85%</span>
 			</div>
 			<div className="col">student assistance</div>
 		</div>
