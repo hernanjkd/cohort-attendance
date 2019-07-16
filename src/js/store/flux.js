@@ -7,20 +7,15 @@ const getState = ({ setStore }) => {
 				fetch(url, { cache: "no-cache" })
 					.then(response => response.json())
 					.then(data => {
-						// let students = data.data.filter(e => !e.first_name.includes("null") );
 						let students = data.data.map(e => {
-							return {
-								// id: e.id,
-								// // Have all names with the same format
-								// name:
-								// 	e.first_name.charAt(0).toUpperCase() +
-								// 	e.first_name.toLowerCase().slice(1) +
-								// 	" " +
-								// 	e.last_name.charAt(0).toUpperCase() +
-								// 	e.last_name.toLowerCase().slice(1),
-								...e,
-								id: e.id
-							};
+							// first_name: "null null", last_name: ""
+							if (e.first_name.includes("null") && String(e.last_name).length == 0)
+								return { ...e, first_name: e.email };
+
+							// first_name: "John Doe", last_name: ""
+							let nameArr = e.first_name.split(" ");
+							if (nameArr.length == 2 && String(e.last_name).length == 0)
+								return { ...e, first_name: nameArr[0], last_name: nameArr[1] };
 						});
 						setStore({ students: students });
 					});
