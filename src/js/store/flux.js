@@ -7,15 +7,27 @@ const getState = ({ setStore }) => {
 				fetch(url, { cache: "no-cache" })
 					.then(response => response.json())
 					.then(data => {
-						let students = data.data.map(e => {
-							// first_name: "null null", last_name: ""
-							if (e.first_name.includes("null") && String(e.last_name).length == 0)
-								return { ...e, first_name: e.email };
+						const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
-							// first_name: "John Doe", last_name: ""
-							let nameArr = e.first_name.split(" ");
-							if (nameArr.length == 2 && String(e.last_name).length == 0)
-								return { ...e, first_name: nameArr[0], last_name: nameArr[1] };
+						let students = data.data.map(e => {
+							//
+							// first_name: "null null", last_name: ""
+							if (e.first_name.includes("null") && e.last_name == "") return { ...e, name: e.email };
+
+							// first_name: "JohnDoe", last_name: null
+							let newName = "";
+							if (!e.first_name.includes(" ") && e.last_name == null)
+								for (let char of e.first_name)
+									newName += char == char.toUpperCase() ? " " + char : char;
+							else {
+								// first_name: "John doe", last_name: null
+								// first_name: "john JIMMY", last_name: "JOE Doe"
+								let nameArr = e.first_name.split(" ");
+								if (e.last_name != null) nameArr = nameArr.concat(e.last_name.split(" "));
+
+								for (let name of nameArr) newName += " " + capitalize(name);
+							}
+							return { ...e, name: newName.slice(1) };
 						});
 						setStore({ students: students });
 					});

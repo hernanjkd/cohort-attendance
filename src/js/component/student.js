@@ -7,8 +7,10 @@ export const Student = props => {
 	const obj = props.studentData;
 	return (
 		<div className="row">
-			<div className="col-3 mx-4 my-3 d-flex justify-content-between">
-				<span>{"first: " + obj.first_name + " . last: " + obj.last_name}</span> <span>85%</span>
+			<div className="col-8 mx-4 my-3 d-flex justify-content-between">
+				<div>Name: {obj.name}</div>
+				<div>First: {obj.first_name}</div>
+				<div>Last: {obj.last_name}</div>
 			</div>
 			<div className="col">student assistance</div>
 		</div>
