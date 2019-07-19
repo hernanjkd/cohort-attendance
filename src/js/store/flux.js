@@ -18,7 +18,9 @@ const getState = ({ setStore }) => {
 
 						let students = data.data.map(e => {
 							// first_name: "null null", last_name: ""
-							if (e.first_name.includes("null") && e.last_name == "") return { ...e, name: e.email };
+							if (e.first_name.includes("null") && e.last_name == "" ||
+								e.first_name == null && e.last_name == null) 
+									return { ...e, name: e.email };
 
 							let newName = "";
 							let first = "";
