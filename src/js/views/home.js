@@ -8,7 +8,7 @@ export const Home = () => {
 			{({ store, actions }) => {
 				return (
 					<div className="container border border-secondary bg-light mt-2 p-3">
-						<select onChange={e => actions.getStudentsFromCohort(e.target.value)}>
+						<select onChange={e => actions.getStudentsAndActivities(e.target.value)}>
 							{store.cohorts &&
 								store.cohorts.map((e, i) => {
 									return (
