@@ -80,7 +80,11 @@ const injectContext = PassedComponent => {
 							}
 							let noCapName = 0;
 							for (let name of arrFirstName) {
-								if (name.charAt(0) !== name.charAt(0).toUpperCase()) noCapName++;
+								if (
+									name.charAt(0) !== name.charAt(0).toUpperCase() ||
+									name.charAt(2) !== name.charAt(2).toLowerCase()
+								)
+									noCapName++;
 							}
 							if (noCapName > 0) {
 								notCapitalized.push(user);
