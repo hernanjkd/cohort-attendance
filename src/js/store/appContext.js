@@ -24,6 +24,7 @@ const injectContext = PassedComponent => {
 			fetch(url, { cache: "no-cache" })
 				.then(response => response.json())
 				.then(data => {
+					// Solo para q muestre el nombre, asi sale en el console.log pa ver rapido
 					data.data = data.data.map(e => {
 						return { first_name: e.first_name, last_name: e.last_name, full_name: e.full_name };
 					});
