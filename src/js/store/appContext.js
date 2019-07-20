@@ -18,13 +18,14 @@ const injectContext = PassedComponent => {
 		}
 
 		componentDidMount() {
-			// Get all students
-			const url = "https://api.breatheco.de/students/?access_token=ead2dc2fc5d1c5bcfa48b83ef1b6816034a5d575";
+			// Get all students or users
+			const get = ["students", "user"];
+			const url = `https://api.breatheco.de/${get[0]}/?access_token=ead2dc2fc5d1c5bcfa48b83ef1b6816034a5d575`;
 			fetch(url, { cache: "no-cache" })
 				.then(response => response.json())
 				.then(data => {
 					data.data = data.data.map(e => {
-						return { first_name: e.first_name, last_name: e.last_name };
+						return { first_name: e.first_name, last_name: e.last_name, full_name: e.full_name };
 					});
 
 					let firstNullNull = []; // "null null"
@@ -94,13 +95,15 @@ const injectContext = PassedComponent => {
 					console.log(togetherAllLowerOrUpper);
 					console.log('first: "John Doe", last: "" = ' + firstLastOneField.length);
 					console.log(firstLastOneField);
-					console.log('first: "John Joe Doe", last: "" = ' + moreThanTwoOneField.length);
+					console.log(
+						'first: "John Joe Doe", last: "" , may contain extra spaces = ' + moreThanTwoOneField.length
+					);
 					console.log(moreThanTwoOneField);
 					console.log("Have a null value = " + hasNull.length);
 					console.log(hasNull);
 					console.log("Not capitalized = " + notCapitalized.length);
 					console.log(notCapitalized);
-					console.log("Properly formatted names = " + properName.length);
+					console.log("Properly formatted names, may contain extra spaces = " + properName.length);
 					console.log(properName);
 					console.log("Total names checked = " + total);
 				});
