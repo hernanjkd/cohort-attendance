@@ -1,6 +1,6 @@
-const access_token = "2e3dc3bb5f68a741428d05649a6259cedd91031f";
+const access_token = "ead2dc2fc5d1c5bcfa48b83ef1b6816034a5d575";
 const assets_token =
-	"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjbGllbnRJZCI6NTUzLCJpYXQiOjE1NjMzNzYyMzAsImV4cCI6MzMxMjAzMjgyMzB9.KxzKdgSl3gXRAdpIbWzGFzsfJd86yOPbUWgoqf-ruD8";
+	"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjbGllbnRJZCI6NTUzLCJpYXQiOjE1NjM1OTc3OTAsImV4cCI6MzMxMjA1NDk3OTB9.XPJ65Z27q2SbCKeI7omza9uVKJLEC0mH6XiniVzU8AA";
 
 const getState = ({ setStore }) => {
 	return {
@@ -18,9 +18,11 @@ const getState = ({ setStore }) => {
 
 						let students = data.data.map(e => {
 							// first_name: "null null", last_name: ""
-							if (e.first_name.includes("null") && e.last_name == "" ||
-								e.first_name == null && e.last_name == null) 
-									return { ...e, name: e.email };
+							if (
+								(e.first_name.includes("null") && e.last_name == "") ||
+								(e.first_name == null && e.last_name == null)
+							)
+								return { ...e, name: e.email };
 
 							let newName = "";
 							let first = "";
