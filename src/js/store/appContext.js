@@ -19,10 +19,14 @@ const injectContext = PassedComponent => {
 
 		componentDidMount() {
 			// Get all students
-			const url = "https://api.breatheco.de/user/?access_token=ead2dc2fc5d1c5bcfa48b83ef1b6816034a5d575";
+			const url = "https://api.breatheco.de/students/?access_token=ead2dc2fc5d1c5bcfa48b83ef1b6816034a5d575";
 			fetch(url, { cache: "no-cache" })
 				.then(response => response.json())
 				.then(data => {
+					data.data = data.data.map(e => {
+						return { first_name: e.first_name, last_name: e.last_name };
+					});
+
 					let firstNullNull = []; // "null null"
 					let togetherAllLowerOrUpper = []; // first middle and last all together, all lower or upper case
 					let firstLastOneField = []; // first and last in one field, other field empty
@@ -74,11 +78,7 @@ const injectContext = PassedComponent => {
 							}
 							let noCapName = 0;
 							for (let name of arrFirstName) {
-								if (
-									name.charAt(0) !== name.charAt(0).toUpperCase() &&
-									name.charAt(1) !== name.charAt(1).toLowerCase()
-								)
-									noCapName++;
+								if (name.charAt(0) !== name.charAt(0).toUpperCase()) noCapName++;
 							}
 							if (noCapName > 0) {
 								notCapitalized.push(user);
@@ -88,13 +88,20 @@ const injectContext = PassedComponent => {
 						}
 						total++;
 					}
-					console.log('first_name: "null null" = ' + firstNullNull.length);
-					console.log('first_name: "johndoe" or "JOHNDOE" = ' + togetherAllLowerOrUpper.length);
-					console.log('first_name: "John Doe", last_name: "" = ' + firstLastOneField.length);
-					console.log('first_name: "John Joe Doe", last_name: "" = ' + moreThanTwoOneField.length);
+					console.log('first: "null null" = ' + firstNullNull.length);
+					console.log(firstNullNull);
+					console.log('first: "johndoe" or "JOHNDOE" = ' + togetherAllLowerOrUpper.length);
+					console.log(togetherAllLowerOrUpper);
+					console.log('first: "John Doe", last: "" = ' + firstLastOneField.length);
+					console.log(firstLastOneField);
+					console.log('first: "John Joe Doe", last: "" = ' + moreThanTwoOneField.length);
+					console.log(moreThanTwoOneField);
 					console.log("Have a null value = " + hasNull.length);
+					console.log(hasNull);
 					console.log("Not capitalized = " + notCapitalized.length);
+					console.log(notCapitalized);
 					console.log("Properly formatted names = " + properName.length);
+					console.log(properName);
 					console.log("Total names checked = " + total);
 				});
 
