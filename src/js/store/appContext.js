@@ -27,7 +27,7 @@ const injectContext = PassedComponent => {
 					let togetherAllLowerOrUpper = []; // first middle and last all together, all lower or upper case
 					let firstLastOneField = []; // first and last in one field, other field empty
 					let moreThanTwoOneField = []; // more than 2 names in one field, other empty
-					let haveNull = []; // have a null value
+					let hasNull = []; // have a null value
 					let notCapitalized = []; // not capitalized
 
 					let properName = []; // properly formated name
@@ -35,63 +35,67 @@ const injectContext = PassedComponent => {
 
 					for (let user of data.data) {
 						let needsFormating = 0;
-						if (user.first_name.includes("null")) {
-							firstNullNull.push(user);
-							needsFormating++;
-						}
-						if (user.first_name === null || user.last_name === null) {
-							haveNull.push(user);
-							needsFormating++;
-						}
-						let last = user.last_name;
-						if (user.last_name === null) last = "";
 
-						let arrFirstName = user.first_name.split(" ");
-						let lower = 0,
-							upper = 0;
-						if (arrFirstName.length === 1 && last === "") {
-							for (let char of user.first_name) {
-								if (char === char.toUpperCase()) upper++;
-								else lower++;
-							}
-							if ((lower > 0 && upper === 0) || (lower === 0 && upper > 0)) {
-								togetherAllLowerOrUpper.push(user);
+						if (user.first_name === null) {
+							needsFormating++;
+							hasNull.push(user);
+						} else {
+							if (user.first_name.includes("null")) {
+								firstNullNull.push(user);
 								needsFormating++;
 							}
-						}
-						if (arrFirstName.length === 2 && last === "") {
-							firstLastOneField.push(user);
-							needsFormating++;
-						}
-						if (arrFirstName.length > 2 && last === "") {
-							moreThanTwoOneField.push(user);
-							needsFormating++;
-						}
-						let noCapName = 0;
-						for (let name of arrFirstName) {
-							if (
-								name.charAt(0) !== name.charAt(0).toUpperCase() &&
-								name.charAt(1) !== name.charAt(1).toLowerCase()
-							)
-								noCapName++;
-						}
-						if (noCapName > 0) {
-							notCapitalized.push(user);
-							needsFormating++;
-						}
-						if (needsFormating === 0) properName.push(user);
+							let last = user.last_name;
+							if (user.last_name === null) {
+								hasNull.push(user);
+								last = "";
+								needsFormating++;
+							}
 
+							let arrFirstName = user.first_name.split(" ");
+							let lower = 0,
+								upper = 0;
+							if (arrFirstName.length === 1 && last === "") {
+								for (let char of user.first_name) {
+									if (char === char.toUpperCase()) upper++;
+									else lower++;
+								}
+								if ((lower > 0 && upper === 0) || (lower === 0 && upper > 0)) {
+									togetherAllLowerOrUpper.push(user);
+									needsFormating++;
+								}
+							}
+							if (arrFirstName.length === 2 && last === "") {
+								firstLastOneField.push(user);
+								needsFormating++;
+							}
+							if (arrFirstName.length > 2 && last === "") {
+								moreThanTwoOneField.push(user);
+								needsFormating++;
+							}
+							let noCapName = 0;
+							for (let name of arrFirstName) {
+								if (
+									name.charAt(0) !== name.charAt(0).toUpperCase() &&
+									name.charAt(1) !== name.charAt(1).toLowerCase()
+								)
+									noCapName++;
+							}
+							if (noCapName > 0) {
+								notCapitalized.push(user);
+								needsFormating++;
+							}
+							if (needsFormating === 0) properName.push(user);
+						}
 						total++;
-
-						console.log('first_name: "null null" = ' + firstNullNull.length);
-						console.log('first_name: "johndoe" or "JOHNDOE" = ' + togetherAllLowerOrUpper.length);
-						console.log('first_name: "John Doe", last_name: "" = ' + firstLastOneField.length);
-						console.log('first_name: "John Joe Doe", last_name: ""' + moreThanTwoOneField.length);
-						console.log("Have a null value = " + haveNull.length);
-						console.log("Not capitalized = " + notCapitalized.length);
-						console.log("Properly formatted names = " + properName.length);
-						console.log("Total names checked = " + total);
 					}
+					console.log('first_name: "null null" = ' + firstNullNull.length);
+					console.log('first_name: "johndoe" or "JOHNDOE" = ' + togetherAllLowerOrUpper.length);
+					console.log('first_name: "John Doe", last_name: "" = ' + firstLastOneField.length);
+					console.log('first_name: "John Joe Doe", last_name: "" = ' + moreThanTwoOneField.length);
+					console.log("Have a null value = " + hasNull.length);
+					console.log("Not capitalized = " + notCapitalized.length);
+					console.log("Properly formatted names = " + properName.length);
+					console.log("Total names checked = " + total);
 				});
 
 			// // Get all cohorts
