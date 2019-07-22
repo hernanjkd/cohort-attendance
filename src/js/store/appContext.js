@@ -58,21 +58,16 @@ const injectContext = PassedComponent => {
 							let arr = first.split(" ");
 							// first_name: "JohnDoe"
 							// first_name: "JOHNDOE"
-							// if (arr.length == 1) {
-							// 	let countUpperCase = 0;
-							// 	let temp = "";
-							// 	for (let char of first) {
-							// 		if (countUpperCase == 4) {
-							// 			temp = first;
-							// 			break;
-							// 		}
-							// 		if (char == char.toUpperCase()) {
-							// 			temp += " " + char;
-							// 			countUpperCase++;
-							// 		} else temp += char;
-							// 	}
-							// 	first = temp.trim();
-							// }
+							if (arr.length == 1) {
+								if (first !== first.toLowerCase() && first !== first.toUpperCase()) {
+									let temp = "";
+									for (let char of first) {
+										if (char == char.toUpperCase()) temp += " " + char;
+										else temp += char;
+									}
+									first = temp.trim();
+								}
+							}
 						}
 
 						e.first_name = first;
@@ -119,15 +114,16 @@ const injectContext = PassedComponent => {
 							}
 
 							let arrFirstName = user.first_name.split(" ");
-							if (
-								arrFirstName.length === 1 &&
-								last === "" &&
-								(user.first_name === user.first_name.toLowerCase() ||
-									user.first_name === user.first_name.toUpperCase())
-							) {
-								togetherAllLowerOrUpper.push(user);
-								needsFormating++;
-							}
+							// if (
+							// 	arrFirstName.length === 1 &&
+							// 	last === "" &&
+							// 	(user.first_name === user.first_name.toLowerCase() ||
+							// 		user.first_name === user.first_name.toUpperCase())
+							// ) {
+							// 	togetherAllLowerOrUpper.push(user);
+							// 	needsFormating++;
+							// }
+							if (arrFirstName.length === 1 && last === "") togetherAllLowerOrUpper.push(user);
 							if (arrFirstName.length === 2 && last === "") {
 								firstLastOneField.push(user);
 								needsFormating++;
