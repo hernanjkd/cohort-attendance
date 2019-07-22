@@ -46,7 +46,7 @@ const getState = ({ setStore }) => {
 							if (e.last_name != null) nameArr = nameArr.concat(e.last_name.split(" "));
 							for (let name of nameArr) newName += " " + capitalize(name);
 
-							return { ...e, name: newName.slice(1) };
+							return { ...e, name: newName.trim() };
 						});
 
 						/****************************************************

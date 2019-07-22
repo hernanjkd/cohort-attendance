@@ -26,6 +26,12 @@ const injectContext = PassedComponent => {
 				.then(data => {
 					// Solo para q muestre el nombre, asi sale en el console.log pa ver rapido
 					data.data = data.data.map(e => {
+						// Take out all extra spaces
+						// let n = e.first_name.trim();
+						// let temp = "";
+						// for (let i in n) if (n[i] !== " " || (n[i] === " " && n[i - 1] !== " ")) temp += n[i];
+						// e.first_name = temp;
+						// Only return fields interested in, for easier visualization
 						return { first_name: e.first_name, last_name: e.last_name, full_name: e.full_name };
 					});
 
