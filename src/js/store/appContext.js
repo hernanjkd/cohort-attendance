@@ -19,8 +19,9 @@ const injectContext = PassedComponent => {
 
 		componentDidMount() {
 			// Get all students or users
+			const access_token = "40424c3c354897532d182ae1110a02eee2427558";
 			const get = ["students", "user"];
-			const url = `https://api.breatheco.de/${get[0]}/?access_token=ead2dc2fc5d1c5bcfa48b83ef1b6816034a5d575`;
+			const url = `https://api.breatheco.de/${get[0]}/?access_token=${access_token}`;
 			fetch(url, { cache: "no-cache" })
 				.then(response => response.json())
 				.then(data => {
@@ -32,7 +33,11 @@ const injectContext = PassedComponent => {
 						// for (let i in n) if (n[i] !== " " || (n[i] === " " && n[i - 1] !== " ")) temp += n[i];
 						// e.first_name = temp;
 						// Only return fields interested in, for easier visualization
-						return { first_name: e.first_name, last_name: e.last_name, full_name: e.full_name };
+						return {
+							first_name: e.first_name,
+							last_name: e.last_name,
+							full_name: e.full_name
+						};
 					});
 
 					let firstNullNull = []; // "null null"
@@ -50,13 +55,7 @@ const injectContext = PassedComponent => {
 					for (let user of data.data) {
 						let needsFormating = 0;
 
-						if (
-							user.email === "" ||
-							user.email === null ||
-							user.email.includes("null") ||
-							!user.email.includes("@")
-						)
-							emptyEmail.push(user);
+						if (user.email === "" || user.email === null || user.email === undefined) emptyEmail.push(user);
 
 						if (user.first_name === null) {
 							needsFormating++;
