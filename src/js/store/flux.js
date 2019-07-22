@@ -21,8 +21,12 @@ const getState = ({ setStore }) => {
 							if (
 								(e.first_name.includes("null") && e.last_name == "") ||
 								(e.first_name == null && e.last_name == null)
-							)
-								return { ...e, name: e.email.substring(0, e.email.indexOf("@")) };
+							) {
+								let userName = e.email.includes("@")
+									? e.email.substring(0, e.email.indexOf("@"))
+									: e.email;
+								return { ...e, name: userName };
+							}
 
 							let newName = "";
 							let first = "";
