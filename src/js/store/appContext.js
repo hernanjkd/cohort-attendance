@@ -20,8 +20,9 @@ const injectContext = PassedComponent => {
 		componentDidMount() {
 			// Get all students or users
 			const access_token = "40424c3c354897532d182ae1110a02eee2427558";
-			const get = ["students", "user"];
-			const url = `https://api.breatheco.de/${get[0]}/?access_token=${access_token}`;
+			const availableEndPoints = ["students", "user"];
+			const get = availableEndPoints[0];
+			const url = `https://api.breatheco.de/${get}/?access_token=${access_token}`;
 			fetch(url, { cache: "no-cache" })
 				.then(response => response.json())
 				.then(data => {
@@ -33,11 +34,12 @@ const injectContext = PassedComponent => {
 						// for (let i in n) if (n[i] !== " " || (n[i] === " " && n[i - 1] !== " ")) temp += n[i];
 						// e.first_name = temp;
 						// Only return fields interested in, for easier visualization
+						let email = get === "students" ? e.email : e.username;
 						return {
 							first_name: e.first_name,
 							last_name: e.last_name,
 							full_name: e.full_name,
-							email: e.email
+							email: email
 						};
 					});
 
@@ -47,11 +49,10 @@ const injectContext = PassedComponent => {
 					let moreThanTwoOneField = []; // more than 2 names in one field, other empty
 					let hasNull = []; // have a null value
 					let notCapitalized = []; // not capitalized
+					let emptyEmail = [];
 
 					let properName = []; // properly formated name
 					let total = 0; // total amount of names
-
-					let emptyEmail = [];
 
 					for (let user of data.data) {
 						let needsFormating = 0;
@@ -126,9 +127,9 @@ const injectContext = PassedComponent => {
 					console.log(notCapitalized);
 					console.log("Properly formatted names, may contain extra spaces = " + properName.length);
 					console.log(properName);
-					console.log("Total names checked = " + total);
-					console.log(emptyEmail.length);
+					console.log("Emails that don't have '@' = " + emptyEmail.length);
 					console.log(emptyEmail);
+					console.log("Total names checked = " + total);
 				});
 
 			// // Get all cohorts
