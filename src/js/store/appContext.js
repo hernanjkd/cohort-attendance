@@ -35,6 +35,49 @@ const injectContext = PassedComponent => {
 						// for (let i in n) if (n[i] !== " " || n[i - 1] !== " ") temp += n[i];
 						// e.first_name = temp;
 						// Only return fields interested in, for easier visualization
+
+						const fullTrim = str => {
+							let newStr = "";
+							str = str.trim();
+							for (let i in str) if (str[i] !== " " || str[i - 1] !== " ") newStr += str[i];
+							return newStr;
+						};
+						let first = e.first_name;
+						let last = e.last_name;
+						if (last === null) last = "";
+
+						// first_name: null
+						// first_name: "null null"
+						if (first === null || first.includes("null")) {
+							if (e.email !== undefined) first = e.email.substring(0, e.email.indexOf("@"));
+							else if (e.username !== undefined) first = e.username.substring(0, e.username.indexOf("@"));
+						} else {
+							first = fullTrim(first);
+							last = fullTrim(last);
+
+							let arr = first.split(" ");
+							// first_name: "JohnDoe"
+							// first_name: "JOHNDOE"
+							// if (arr.length == 1) {
+							// 	let countUpperCase = 0;
+							// 	let temp = "";
+							// 	for (let char of first) {
+							// 		if (countUpperCase == 4) {
+							// 			temp = first;
+							// 			break;
+							// 		}
+							// 		if (char == char.toUpperCase()) {
+							// 			temp += " " + char;
+							// 			countUpperCase++;
+							// 		} else temp += char;
+							// 	}
+							// 	first = temp.trim();
+							// }
+						}
+
+						e.first_name = first;
+						e.last_name = last;
+
 						let email = get === "students" ? e.email : e.username;
 						return {
 							first_name: e.first_name,
@@ -76,17 +119,14 @@ const injectContext = PassedComponent => {
 							}
 
 							let arrFirstName = user.first_name.split(" ");
-							let lower = 0,
-								upper = 0;
-							if (arrFirstName.length === 1 && last === "") {
-								for (let char of user.first_name) {
-									if (char === char.toUpperCase()) upper++;
-									else lower++;
-								}
-								if ((lower > 0 && upper === 0) || (lower === 0 && upper > 0)) {
-									togetherAllLowerOrUpper.push(user);
-									needsFormating++;
-								}
+							if (
+								arrFirstName.length === 1 &&
+								last === "" &&
+								(user.first_name === user.first_name.toLowerCase() ||
+									user.first_name === user.first_name.toUpperCase())
+							) {
+								togetherAllLowerOrUpper.push(user);
+								needsFormating++;
 							}
 							if (arrFirstName.length === 2 && last === "") {
 								firstLastOneField.push(user);
