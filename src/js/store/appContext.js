@@ -21,6 +21,7 @@ const injectContext = PassedComponent => {
 			// Get all students or users
 			const access_token = "40424c3c354897532d182ae1110a02eee2427558";
 			const availableEndPoints = ["students", "user"];
+
 			const get = availableEndPoints[0];
 			const url = `https://api.breatheco.de/${get}/?access_token=${access_token}`;
 			fetch(url, { cache: "no-cache" })
@@ -31,7 +32,7 @@ const injectContext = PassedComponent => {
 						// Take out all extra spaces
 						// let n = e.first_name.trim();
 						// let temp = "";
-						// for (let i in n) if (n[i] !== " " || (n[i] === " " && n[i - 1] !== " ")) temp += n[i];
+						// for (let i in n) if (n[i] !== " " || n[i - 1] !== " ") temp += n[i];
 						// e.first_name = temp;
 						// Only return fields interested in, for easier visualization
 						let email = get === "students" ? e.email : e.username;
