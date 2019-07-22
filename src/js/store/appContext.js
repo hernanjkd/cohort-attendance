@@ -36,7 +36,8 @@ const injectContext = PassedComponent => {
 						return {
 							first_name: e.first_name,
 							last_name: e.last_name,
-							full_name: e.full_name
+							full_name: e.full_name,
+							email: e.email
 						};
 					});
 
@@ -55,7 +56,7 @@ const injectContext = PassedComponent => {
 					for (let user of data.data) {
 						let needsFormating = 0;
 
-						if (user.email === "" || user.email === null || user.email === undefined) emptyEmail.push(user);
+						if (!user.email.includes("@")) emptyEmail.push(user);
 
 						if (user.first_name === null) {
 							needsFormating++;
@@ -127,6 +128,7 @@ const injectContext = PassedComponent => {
 					console.log(properName);
 					console.log("Total names checked = " + total);
 					console.log(emptyEmail.length);
+					console.log(emptyEmail);
 				});
 
 			// // Get all cohorts
