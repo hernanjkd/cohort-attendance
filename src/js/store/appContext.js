@@ -45,8 +45,18 @@ const injectContext = PassedComponent => {
 					let properName = []; // properly formated name
 					let total = 0; // total amount of names
 
+					let emptyEmail = [];
+
 					for (let user of data.data) {
 						let needsFormating = 0;
+
+						if (
+							user.email === "" ||
+							user.email === null ||
+							user.email.includes("null") ||
+							!user.email.includes("@")
+						)
+							emptyEmail.push(user);
 
 						if (user.first_name === null) {
 							needsFormating++;
@@ -117,6 +127,7 @@ const injectContext = PassedComponent => {
 					console.log("Properly formatted names, may contain extra spaces = " + properName.length);
 					console.log(properName);
 					console.log("Total names checked = " + total);
+					console.log(emptyEmail.length);
 				});
 
 			// // Get all cohorts
