@@ -36,6 +36,7 @@ const injectContext = PassedComponent => {
 						// e.first_name = temp;
 						// Only return fields interested in, for easier visualization
 
+						/**************************************************************** */
 						const fullTrim = str => {
 							let newStr = "";
 							str = str.trim();
@@ -56,22 +57,28 @@ const injectContext = PassedComponent => {
 							last = fullTrim(last);
 
 							let arr = first.split(" ");
+							// first_name: "John"
 							// first_name: "JohnDoe"
 							// first_name: "JOHNDOE"
-							if (arr.length == 1) {
+							if (arr.length === 1) {
 								if (first !== first.toLowerCase() && first !== first.toUpperCase()) {
 									let temp = "";
 									for (let char of first) {
-										if (char == char.toUpperCase()) temp += " " + char;
+										if (char === char.toUpperCase() && isNaN(char)) temp += " " + char;
 										else temp += char;
 									}
 									first = temp.trim();
+									arr = first.split(" ");
 								}
+							}
+							// first_name: "john doe", last_name: ""
+							if (arr.length === 2 && last === "") {
 							}
 						}
 
 						e.first_name = first;
 						e.last_name = last;
+						/**************************************************************** */
 
 						let email = get === "students" ? e.email : e.username;
 						return {
