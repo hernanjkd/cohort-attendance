@@ -19,7 +19,7 @@ const injectContext = PassedComponent => {
 
 		componentDidMount() {
 			// Get all students or users
-			const access_token = "40424c3c354897532d182ae1110a02eee2427558";
+			const access_token = "8febbb7f448a860b69ca739340a5e82cc60f1cbb";
 			const availableEndPoints = ["students", "user"];
 
 			const get = availableEndPoints[0];
@@ -37,6 +37,7 @@ const injectContext = PassedComponent => {
 						// Only return fields interested in, for easier visualization
 
 						/**************************************************************** */
+						const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 						const fullTrim = str => {
 							let newStr = "";
 							str = str.trim();
@@ -50,8 +51,9 @@ const injectContext = PassedComponent => {
 						// first_name: null
 						// first_name: "null null"
 						if (first === null || first.includes("null")) {
-							if (e.email !== undefined) first = e.email.substring(0, e.email.indexOf("@"));
-							else if (e.username !== undefined) first = e.username.substring(0, e.username.indexOf("@"));
+							if (e.email !== undefined) first = e.email.substring(0, e.email.indexOf("@")).toLowerCase();
+							else if (e.username !== undefined)
+								first = e.username.substring(0, e.username.indexOf("@")).toLowerCase();
 						} else {
 							first = fullTrim(first);
 							last = fullTrim(last);
@@ -69,12 +71,24 @@ const injectContext = PassedComponent => {
 									}
 									first = temp.trim();
 									arr = first.split(" ");
+									if (arr.length === 1) first = capitalize(arr[0]);
 								}
 							}
 							// first_name: "john doe", last_name: ""
 							if (arr.length === 2 && last === "") {
 								first = capitalize(arr[0]);
 								last = capitalize(arr[1]);
+							}
+							// first_name: "john joe doe", last_name: ""
+							else if (arr.length === 3 && last === "") {
+								first = capitalize(arr[0]) + " " + capitalize(arr[1]);
+								last = capitalize(arr[2]);
+							}
+							// first_name: "john billy", last_name: "joe doe"
+							else if (last !== "") {
+								let arrl = last.split(" ");
+								for (let i in arr) arr[i] = capitalize(arr[i]);
+								for (let i in arrl) arrl[i] = capitalize(arrl[i]);
 							}
 						}
 
@@ -87,7 +101,8 @@ const injectContext = PassedComponent => {
 							first_name: e.first_name,
 							last_name: e.last_name,
 							full_name: e.full_name,
-							email: email
+							email: email,
+							...e
 						};
 					});
 
@@ -123,15 +138,15 @@ const injectContext = PassedComponent => {
 							}
 
 							let arrFirstName = user.first_name.split(" ");
-							// if (
-							// 	arrFirstName.length === 1 &&
-							// 	last === "" &&
-							// 	(user.first_name === user.first_name.toLowerCase() ||
-							// 		user.first_name === user.first_name.toUpperCase())
-							// ) {
-							// 	togetherAllLowerOrUpper.push(user);
-							// 	needsFormating++;
-							// }
+							if (
+								arrFirstName.length === 1 &&
+								last === "" &&
+								(user.first_name === user.first_name.toLowerCase() ||
+									user.first_name === user.first_name.toUpperCase())
+							) {
+								togetherAllLowerOrUpper.push(user);
+								needsFormating++;
+							}
 							if (arrFirstName.length === 1 && last === "") togetherAllLowerOrUpper.push(user);
 							if (arrFirstName.length === 2 && last === "") {
 								firstLastOneField.push(user);
@@ -171,7 +186,7 @@ const injectContext = PassedComponent => {
 					console.log(hasNull);
 					console.log("Not capitalized = " + notCapitalized.length);
 					console.log(notCapitalized);
-					console.log("Properly formatted names, may contain extra spaces = " + properName.length);
+					console.log("Names that didn't need formatting = " + properName.length);
 					console.log(properName);
 					console.log("Emails that don't have '@' = " + emptyEmail.length);
 					console.log(emptyEmail);
