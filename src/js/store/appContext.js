@@ -73,6 +73,8 @@ const injectContext = PassedComponent => {
 							}
 							// first_name: "john doe", last_name: ""
 							if (arr.length === 2 && last === "") {
+								first = capitalize(arr[0]);
+								last = capitalize(arr[1]);
 							}
 						}
 
