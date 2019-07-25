@@ -103,6 +103,13 @@ const injectContext = PassedComponent => {
 						};
 					});
 
+					const fullTrim = str => {
+						let newStr = "";
+						str = str.trim();
+						for (let i in str) if (str[i] !== " " || str[i - 1] !== " ") newStr += str[i];
+						return newStr;
+					};
+
 					let firstNullNull = []; // "null null"
 					let allLowerOrUpper = []; // first middle and last all together, all lower or upper case
 					let firstLastOneField = []; // first and last in one field, other field empty
@@ -139,7 +146,13 @@ const injectContext = PassedComponent => {
 								needsFormating++;
 							}
 							// many empty spaces
-							let arrFirstName = user.first_name.split(" ");
+							let emptySpaces = user.first_name.split(" ").length;
+							let first = fullTrim(user.first_name);
+							let arrFirstName = first.split(" ");
+							if (emptySpaces > arrFirstName.length) {
+								manyEmptySpaces.push(user);
+								needsFormating++;
+							}
 
 							// first is all lowercase or uppercase, last = ""
 							if (
@@ -163,7 +176,7 @@ const injectContext = PassedComponent => {
 							}
 							// Any name not capitalized
 							let noCapName = 0;
-							for (let name of arrFirstName) {
+							for (let name of arrFirstName.concat()) {
 								if (
 									name.charAt(0) !== name.charAt(0).toUpperCase() ||
 									name.charAt(2) !== name.charAt(2).toLowerCase()
@@ -181,13 +194,13 @@ const injectContext = PassedComponent => {
 					}
 					console.log('first: "null null" = ' + firstNullNull.length);
 					console.log(firstNullNull);
-					console.log('All lowercase or uppercase, last: "" or null = ' + allLowerOrUpper.length);
+					console.log("Many empty spaces = " + manyEmptySpaces.length);
+					console.log(manyEmptySpaces);
+					console.log("All lowercase or uppercase, no last name = " + allLowerOrUpper.length);
 					console.log(allLowerOrUpper);
-					console.log('first: "John Doe", last: "" = ' + firstLastOneField.length);
+					console.log('first: "John Doe", no last name = ' + firstLastOneField.length);
 					console.log(firstLastOneField);
-					console.log(
-						'first: "John Joe Doe", last: "" , may contain extra spaces = ' + moreThanTwoOneField.length
-					);
+					console.log('first: "John Joe Doe", no last name = ' + moreThanTwoOneField.length);
 					console.log(moreThanTwoOneField);
 					console.log("Have a null value = " + hasNull.length);
 					console.log(hasNull);
