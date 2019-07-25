@@ -19,7 +19,7 @@ const injectContext = PassedComponent => {
 
 		componentDidMount() {
 			// Get all students or users
-			const access_token = "8febbb7f448a860b69ca739340a5e82cc60f1cbb";
+			const access_token = "f9a598d9ef089c61261b62c2fefb4a9060ffa8e3";
 			const availableEndPoints = ["students", "user"];
 
 			const get = availableEndPoints[0];
