@@ -1,6 +1,6 @@
 import React from "react";
 import { Context } from "../store/appContext";
-import { Student } from "../component/student";
+import Student from "../component/student";
 
 export const Home = () => {
 	return (
