@@ -176,7 +176,7 @@ const injectContext = PassedComponent => {
 							}
 							// Any name not capitalized
 							let noCapName = 0;
-							for (let name of arrFirstName.concat()) {
+							for (let name of arrFirstName.concat(last.split(" "))) {
 								if (
 									name.charAt(0) !== name.charAt(0).toUpperCase() ||
 									name.charAt(2) !== name.charAt(2).toLowerCase()
