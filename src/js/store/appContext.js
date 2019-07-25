@@ -22,7 +22,7 @@ const injectContext = PassedComponent => {
 			const access_token = "f9a598d9ef089c61261b62c2fefb4a9060ffa8e3";
 			const availableEndPoints = ["students", "user"];
 
-			const get = availableEndPoints[1];
+			const get = availableEndPoints[0];
 			const url = `https://api.breatheco.de/${get}/?access_token=${access_token}`;
 			fetch(url, { cache: "no-cache" })
 				.then(response => response.json())
@@ -32,69 +32,70 @@ const injectContext = PassedComponent => {
 						/**************************************************************** */
 						/**************************************************************** */
 						/**************************************************************** */
-						const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-						const getUserName = email => email.substring(0, email.indexOf("@")).toLowerCase();
-						const fullTrim = str => {
-							let newStr = "";
-							str = str.trim();
-							for (let i in str) if (str[i] !== " " || str[i - 1] !== " ") newStr += str[i];
-							return newStr;
-						};
-						let first = e.first_name;
-						let last = e.last_name;
-						if (last === null) last = "";
-						let username = e.username === undefined ? getUserName(e.email) : getUserName(e.username);
+						// const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+						// const getUserName = email => email.substring(0, email.indexOf("@")).toLowerCase();
+						// const fullTrim = str => {
+						// 	let newStr = "";
+						// 	str = str.trim();
+						// 	for (let i in str) if (str[i] !== " " || str[i - 1] !== " ") newStr += str[i];
+						// 	return newStr;
+						// };
+						// let first = e.first_name;
+						// let last = e.last_name;
+						// if (last === null) last = "";
+						// // In the fetch url, Students have email, Users have username
+						// let username = e.username === undefined ? getUserName(e.email) : getUserName(e.username);
 
-						// first_name: null
-						// first_name: "null null"
-						if (first === null || first.includes("null")) {
-							first = username;
-						}
-						// first === email username, keep lowercase
-						else if (first.toLowerCase() === username) {
-							first = username;
-						} else {
-							first = fullTrim(first);
-							last = fullTrim(last);
+						// // first_name: null
+						// // first_name: "null null"
+						// if (first === null || first.includes("null")) {
+						// 	first = username;
+						// }
+						// // first === email username, keep lowercase
+						// else if (first.toLowerCase() === username) {
+						// 	first = username;
+						// } else {
+						// 	first = fullTrim(first);
+						// 	last = fullTrim(last);
 
-							let arr = first.split(" ");
-							// first_name: "John"
-							// first_name: "JohnDoe"
-							// first_name: "JOHNDOE"
-							if (arr.length === 1) {
-								if (first !== first.toLowerCase() && first !== first.toUpperCase()) {
-									let temp = "";
-									for (let char of first) {
-										if (char === char.toUpperCase() && isNaN(char)) temp += " " + char;
-										else temp += char;
-									}
-									first = temp.trim();
-									arr = first.split(" ");
-									if (arr.length === 1) first = capitalize(arr[0]);
-								} else first = capitalize(first);
-							}
-							// first_name: "john doe", last_name: ""
-							if (arr.length === 2 && last === "") {
-								first = capitalize(arr[0]);
-								last = capitalize(arr[1]);
-							}
-							// first_name: "john joe doe", last_name: ""
-							else if (arr.length === 3 && last === "") {
-								first = capitalize(arr[0]) + " " + capitalize(arr[1]);
-								last = capitalize(arr[2]);
-							}
-							// first_name: "john billy", last_name: "joe doe"
-							else if (last !== "") {
-								let arrl = last.split(" ");
-								for (let i in arr) arr[i] = capitalize(arr[i]);
-								for (let i in arrl) arrl[i] = capitalize(arrl[i]);
-								first = arr.join(" ");
-								last = arrl.join(" ");
-							}
-						}
+						// 	let arr = first.split(" ");
+						// 	// first_name: "John"
+						// 	// first_name: "JohnDoe"
+						// 	// first_name: "JOHNDOE"
+						// 	if (arr.length === 1) {
+						// 		if (first !== first.toLowerCase() && first !== first.toUpperCase()) {
+						// 			let temp = "";
+						// 			for (let char of first) {
+						// 				if (char === char.toUpperCase() && isNaN(char)) temp += " " + char;
+						// 				else temp += char;
+						// 			}
+						// 			first = temp.trim();
+						// 			arr = first.split(" ");
+						// 			if (arr.length === 1) first = capitalize(arr[0]);
+						// 		} else first = capitalize(first);
+						// 	}
+						// 	// first_name: "john doe", last_name: ""
+						// 	if (arr.length === 2 && last === "") {
+						// 		first = capitalize(arr[0]);
+						// 		last = capitalize(arr[1]);
+						// 	}
+						// 	// first_name: "john joe doe", last_name: ""
+						// 	else if (arr.length === 3 && last === "") {
+						// 		first = capitalize(arr[0]) + " " + capitalize(arr[1]);
+						// 		last = capitalize(arr[2]);
+						// 	}
+						// 	// first_name: "john billy", last_name: "joe doe"
+						// 	else if (last !== "") {
+						// 		let arrl = last.split(" ");
+						// 		for (let i in arr) arr[i] = capitalize(arr[i]);
+						// 		for (let i in arrl) arrl[i] = capitalize(arrl[i]);
+						// 		first = arr.join(" ");
+						// 		last = arrl.join(" ");
+						// 	}
+						// }
 
-						e.first_name = first;
-						e.last_name = last;
+						// e.first_name = first;
+						// e.last_name = last;
 						/**************************************************************** */
 						/**************************************************************** */
 						/**************************************************************** */
@@ -102,6 +103,7 @@ const injectContext = PassedComponent => {
 						return {
 							first_name: e.first_name,
 							last_name: e.last_name,
+							email: get === "students" ? e.email : e.username,
 							full_name: e.full_name,
 							...e
 						};
@@ -161,29 +163,9 @@ const injectContext = PassedComponent => {
 								needsFormating++;
 							}
 
-							// first is all lowercase or uppercase, last = ""
-							if (
-								arrFirstName.length === 1 &&
-								last === "" &&
-								(user.first_name === user.first_name.toLowerCase() ||
-									user.first_name === user.first_name.toUpperCase())
-							) {
-								allLowerOrUpper.push(user);
-								needsFormating++;
-							}
-							// first and last in one field, last = ""
-							if (arrFirstName.length === 2 && last === "") {
-								firstLastOneField.push(user);
-								needsFormating++;
-							}
-							// More than 2 names in one field, last = ""
-							if (arrFirstName.length > 2 && last === "") {
-								moreThanTwoOneField.push(user);
-								needsFormating++;
-							}
-							// Any name not capitalized, all email user names must remain lowercase
-							let noCapName = 0;
-							if (first.toLowerCase() !== email.substring(0, email.indexOf("@")).toLowerCase()) {
+							// All names equal to user name keep lower case and don't consider for formatting
+							if (first !== email.substring(0, email.indexOf("@")).toLowerCase()) {
+								// Any name not capitalized
 								for (let name of arrFirstName.concat(last.split(" "))) {
 									if (
 										name.charAt(0) !== name.charAt(0).toUpperCase() ||
@@ -195,6 +177,28 @@ const injectContext = PassedComponent => {
 									notCapitalized.push(user);
 									needsFormating++;
 								}
+
+								let noCapName = 0;
+								// first name is all lowercase or uppercase, last = ""
+								if (
+									arrFirstName.length === 1 &&
+									last === "" &&
+									(user.first_name === user.first_name.toLowerCase() ||
+										user.first_name === user.first_name.toUpperCase())
+								) {
+									allLowerOrUpper.push(user);
+									needsFormating++;
+								}
+							}
+							// first and last in one field, last = ""
+							if (arrFirstName.length === 2 && last === "") {
+								firstLastOneField.push(user);
+								needsFormating++;
+							}
+							// More than 2 names in one field, last = ""
+							if (arrFirstName.length > 2 && last === "") {
+								moreThanTwoOneField.push(user);
+								needsFormating++;
 							}
 							// Names that don't need formatting
 							if (needsFormating === 0) noFormatting.push(user);
@@ -202,15 +206,15 @@ const injectContext = PassedComponent => {
 						total++;
 					}
 					console.log(firstNullNull);
-					console.log('first: "null null" = ' + firstNullNull.length);
+					console.log('first name: "null null" = ' + firstNullNull.length);
 					console.log(manyEmptySpaces);
 					console.log("Many empty spaces = " + manyEmptySpaces.length);
 					console.log(allLowerOrUpper);
 					console.log("All lowercase or uppercase, no last name = " + allLowerOrUpper.length);
 					console.log(firstLastOneField);
-					console.log('first: "John Doe", no last name = ' + firstLastOneField.length);
+					console.log('first name: "John Doe", no last name = ' + firstLastOneField.length);
 					console.log(moreThanTwoOneField);
-					console.log('first: "John Joe Doe", no last name = ' + moreThanTwoOneField.length);
+					console.log('first name: "John Joe Doe", no last name = ' + moreThanTwoOneField.length);
 					console.log(hasNull);
 					console.log("Have a null value = " + hasNull.length);
 					console.log(notCapitalized);
