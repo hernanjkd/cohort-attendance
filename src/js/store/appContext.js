@@ -27,7 +27,8 @@ const injectContext = PassedComponent => {
 			fetch(url, { cache: "no-cache" })
 				.then(response => response.json())
 				.then(data => {
-					// Solo para q muestre el nombre, asi sale en el console.log pa ver rapido
+					// data.data = data.data.filter(e => e.email === "aalejo+1@gmail.com");
+					// Solo para q muestre el nombre en el array en el console.log, pa ver mas rapido
 					data.data = data.data.map(e => {
 						/**************************************************************** */
 						/**************************************************************** */
@@ -84,6 +85,8 @@ const injectContext = PassedComponent => {
 						// 		let arrl = last.split(" ");
 						// 		for (let i in arr) arr[i] = capitalize(arr[i]);
 						// 		for (let i in arrl) arrl[i] = capitalize(arrl[i]);
+						// 		first = arr.join(" ");
+						// 		last = arrl.join(" ");
 						// 	}
 						// }
 
@@ -192,24 +195,24 @@ const injectContext = PassedComponent => {
 						}
 						total++;
 					}
-					console.log('first: "null null" = ' + firstNullNull.length);
 					console.log(firstNullNull);
-					console.log("Many empty spaces = " + manyEmptySpaces.length);
+					console.log('first: "null null" = ' + firstNullNull.length);
 					console.log(manyEmptySpaces);
-					console.log("All lowercase or uppercase, no last name = " + allLowerOrUpper.length);
+					console.log("Many empty spaces = " + manyEmptySpaces.length);
 					console.log(allLowerOrUpper);
-					console.log('first: "John Doe", no last name = ' + firstLastOneField.length);
+					console.log("All lowercase or uppercase, no last name = " + allLowerOrUpper.length);
 					console.log(firstLastOneField);
-					console.log('first: "John Joe Doe", no last name = ' + moreThanTwoOneField.length);
+					console.log('first: "John Doe", no last name = ' + firstLastOneField.length);
 					console.log(moreThanTwoOneField);
-					console.log("Have a null value = " + hasNull.length);
+					console.log('first: "John Joe Doe", no last name = ' + moreThanTwoOneField.length);
 					console.log(hasNull);
-					console.log("Not capitalized = " + notCapitalized.length);
+					console.log("Have a null value = " + hasNull.length);
 					console.log(notCapitalized);
-					console.log("Names that don't need formatting = " + noFormatting.length);
+					console.log("Not capitalized = " + notCapitalized.length);
 					console.log(noFormatting);
-					console.log("Emails that don't have '@' = " + emptyEmail.length);
+					console.log("Names that don't need formatting = " + noFormatting.length);
 					console.log(emptyEmail);
+					console.log("Emails that don't have '@' = " + emptyEmail.length);
 					console.log("Total names checked = " + total);
 				});
 
