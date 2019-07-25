@@ -30,6 +30,8 @@ const injectContext = PassedComponent => {
 					// Solo para q muestre el nombre, asi sale en el console.log pa ver rapido
 					data.data = data.data.map(e => {
 						/**************************************************************** */
+						/**************************************************************** */
+						/**************************************************************** */
 						// const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 						// const fullTrim = str => {
 						// 	let newStr = "";
@@ -88,6 +90,8 @@ const injectContext = PassedComponent => {
 						// e.first_name = first;
 						// e.last_name = last;
 						/**************************************************************** */
+						/**************************************************************** */
+						/**************************************************************** */
 
 						let email = get === "students" ? e.email : e.username;
 						return {
@@ -105,32 +109,39 @@ const injectContext = PassedComponent => {
 					let moreThanTwoOneField = []; // more than 2 names in one field, other empty
 					let hasNull = []; // have a null value
 					let notCapitalized = []; // not capitalized
+					let manyEmptySpaces = [];
 					let emptyEmail = [];
 
-					let properName = []; // properly formated name
+					let noFormatting = []; // properly formated name
 					let total = 0; // total amount of names
 
 					for (let user of data.data) {
 						let needsFormating = 0;
-
+						// Check email has @
 						if (!user.email.includes("@")) emptyEmail.push(user);
 
+						// first is null
 						if (user.first_name === null) {
 							needsFormating++;
 							hasNull.push(user);
 						} else {
+							// first is "null null"
 							if (user.first_name.includes("null")) {
 								firstNullNull.push(user);
 								needsFormating++;
 							}
 							let last = user.last_name;
+							// last is null
 							if (user.last_name === null) {
 								hasNull.push(user);
+								// Set all null last names to ""
 								last = "";
 								needsFormating++;
 							}
-
+							// many empty spaces
 							let arrFirstName = user.first_name.split(" ");
+
+							// first is all lowercase or uppercase, last = ""
 							if (
 								arrFirstName.length === 1 &&
 								last === "" &&
@@ -140,14 +151,17 @@ const injectContext = PassedComponent => {
 								allLowerOrUpper.push(user);
 								needsFormating++;
 							}
+							// first and last in one field, last = ""
 							if (arrFirstName.length === 2 && last === "") {
 								firstLastOneField.push(user);
 								needsFormating++;
 							}
+							// More than 2 names in one field, last = ""
 							if (arrFirstName.length > 2 && last === "") {
 								moreThanTwoOneField.push(user);
 								needsFormating++;
 							}
+							// Any name not capitalized
 							let noCapName = 0;
 							for (let name of arrFirstName) {
 								if (
@@ -160,13 +174,14 @@ const injectContext = PassedComponent => {
 								notCapitalized.push(user);
 								needsFormating++;
 							}
-							if (needsFormating === 0) properName.push(user);
+							// Names that don't need formatting
+							if (needsFormating === 0) noFormatting.push(user);
 						}
 						total++;
 					}
 					console.log('first: "null null" = ' + firstNullNull.length);
 					console.log(firstNullNull);
-					console.log('first: "johndoe" or "JOHNDOE" = ' + allLowerOrUpper.length);
+					console.log('All lowercase or uppercase, last: "" or null = ' + allLowerOrUpper.length);
 					console.log(allLowerOrUpper);
 					console.log('first: "John Doe", last: "" = ' + firstLastOneField.length);
 					console.log(firstLastOneField);
@@ -178,8 +193,8 @@ const injectContext = PassedComponent => {
 					console.log(hasNull);
 					console.log("Not capitalized = " + notCapitalized.length);
 					console.log(notCapitalized);
-					console.log("Names that didn't need formatting = " + properName.length);
-					console.log(properName);
+					console.log("Names that don't need formatting = " + noFormatting.length);
+					console.log(noFormatting);
 					console.log("Emails that don't have '@' = " + emptyEmail.length);
 					console.log(emptyEmail);
 					console.log("Total names checked = " + total);
