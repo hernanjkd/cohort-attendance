@@ -43,15 +43,17 @@ const injectContext = PassedComponent => {
 						let first = e.first_name;
 						let last = e.last_name;
 						if (last === null) last = "";
-						let userEmail = get === "students" ? e.email : e.username;
+						let username = e.username === undefined ? getUserName(e.email) : getUserName(e.username);
 
 						// first_name: null
 						// first_name: "null null"
 						if (first === null || first.includes("null")) {
-							//first = getUserName(userEmail);
+							first = username;
 						}
 						// first === email username, keep lowercase
-						else {
+						else if (first.toLowerCase() === username) {
+							first = username;
+						} else {
 							first = fullTrim(first);
 							last = fullTrim(last);
 
@@ -97,12 +99,10 @@ const injectContext = PassedComponent => {
 						/**************************************************************** */
 						/**************************************************************** */
 
-						let email = get === "students" ? e.email : e.username;
 						return {
 							first_name: e.first_name,
 							last_name: e.last_name,
 							full_name: e.full_name,
-
 							...e
 						};
 					});
@@ -127,9 +127,12 @@ const injectContext = PassedComponent => {
 					let total = 0; // total amount of names
 
 					for (let user of data.data) {
+						// In the fetch url: Students have email, Users have username
+						let email = user.username === undefined ? user.email : user.username;
+
 						let needsFormating = 0;
 						// Check email has @
-						if (!user.email.includes("@")) emptyEmail.push(user);
+						if (!email.includes("@")) emptyEmail.push(user);
 
 						// first is null
 						if (user.first_name === null) {
@@ -180,9 +183,7 @@ const injectContext = PassedComponent => {
 							}
 							// Any name not capitalized, all email user names must remain lowercase
 							let noCapName = 0;
-							if (
-								first.toLowerCase() !== user.email.substring(0, user.email.indexOf("@")).toLowerCase()
-							) {
+							if (first.toLowerCase() !== email.substring(0, email.indexOf("@")).toLowerCase()) {
 								for (let name of arrFirstName.concat(last.split(" "))) {
 									if (
 										name.charAt(0) !== name.charAt(0).toUpperCase() ||
