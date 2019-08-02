@@ -240,9 +240,9 @@ const injectContext = PassedComponent => {
 			// // A WAY OF SAVING TO STORE LEAVING THE OLD DATA, CREATES A NEW KEY DATA WITH THE VALUE OF DATA
 			// fetch(url)
 			// 	.then(response => response.json())
-			// 	.then(data => {
+			// 	.then(cohorts => {
 			// 		this.setState(state => {
-			// 			return { store: { ...state.store, data } };
+			// 			return { store: { ...state.store, cohorts } };
 			// 		});
 			// 	});
 
