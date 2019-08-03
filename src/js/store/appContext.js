@@ -93,9 +93,9 @@ const injectContext = PassedComponent => {
 								last = arrl.join(" ");
 							}
 						}
-						console.log(
-							`Formatting "${e.first_name}, ${e.last_name}" ->  "${first}, ${last}" - ${e.email}`
-						);
+						console.log(`"${e.first_name}, ${e.last_name}" - ${e.email}`);
+						console.log(`"${first}, ${last}"`);
+						console.log("");
 						e.first_name = first;
 						e.last_name = last;
 						/**************************************************************** */
