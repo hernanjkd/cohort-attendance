@@ -18,6 +18,17 @@ const injectContext = PassedComponent => {
 		}
 
 		componentDidMount() {
+			// Get all cohorts
+			const access_token = "889b3a2f1e46637807e190bf1e9ad06b335aa23d";
+			const url = `https://api.breatheco.de/cohorts/?access_token=${access_token}`;
+			fetch(url, { cache: "no-cache" })
+				.then(response => response.json())
+				.then(data => {
+					this.setState(({ store }) => {
+						data.data.sort((a, b) => (new Date(a.kickoff_date) < new Date(b.kickoff_date) ? 1 : -1));
+						return { store: { ...store, cohorts: data.data } };
+					});
+				});
 			/********************************************************************* */
 			/********************************************************************* */
 			/********************************************************************* */
@@ -118,16 +129,7 @@ const injectContext = PassedComponent => {
 			/********************************************************************* */
 			/********************************************************************* */
 			/********************************************************************* */
-			// // Get all cohorts
-			// const url = "https://api.breatheco.de/cohorts/?access_token=d0feed2a021a9aee7036cdc56c5bd16bca1c2603";
-			// fetch(url, { cache: "no-cache" })
-			// 	.then(response => response.json())
-			// 	.then(data => {
-			// 		this.setState(({ store }) => {
-			// 			data.data.sort((a, b) => (new Date(a.kickoff_date) < new Date(b.kickoff_date) ? 1 : -1));
-			// 			return { store: { ...store, cohorts: data.data } };
-			// 		});
-			// 	});
+			
 			// // A WAY OF SAVING TO STORE LEAVING THE OLD DATA, CREATES A NEW KEY DATA WITH THE VALUE OF DATA
 			// fetch(url)
 			// 	.then(response => response.json())
