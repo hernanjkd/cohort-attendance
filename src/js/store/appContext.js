@@ -110,6 +110,7 @@ const injectContext = PassedComponent => {
 							...e
 						};
 					});
+					
 				});
 
 			// // Get all cohorts
