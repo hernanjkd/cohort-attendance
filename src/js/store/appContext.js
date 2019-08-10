@@ -28,7 +28,7 @@ const injectContext = PassedComponent => {
 				.then(response => response.json())
 				.then(data => {
 					// Solo para q muestre el nombre en el array en el console.log, pa ver mas rapido
-					data.data = data.data.map(e => {
+					let cleanData = data.data.map(e => {
 						/**************************************************************** */
 						/**************************************************************** */
 						/**************************************************************** */
@@ -110,7 +110,7 @@ const injectContext = PassedComponent => {
 							...e
 						};
 					});
-					
+					this.setState({ store: cleanData });
 				});
 
 			// // Get all cohorts
