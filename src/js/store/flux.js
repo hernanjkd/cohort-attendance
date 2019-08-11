@@ -10,7 +10,7 @@ const getState = ({ setStore, getActions }) => {
 					.then(response => response.json())
 					.then(data => {
 						let cleanData = getActions("formatNames")(data.data);
-						console.log(cleanData);
+						setStore({ students: cleanData });
 						/****************************************************
 						 *  FETCH COHORT ACTIVITIES AND MATCH WITH STUDENT
 						 ****************************************************/
@@ -49,7 +49,7 @@ const getState = ({ setStore, getActions }) => {
 						first = username;
 					}
 					// first === email username, keep lowercase
-					else if (first.toLowerCase() === username) {
+					else if (first.toLowerCase() === username && last === "") {
 						first = username;
 					} else {
 						first = fullTrim(first);

@@ -8,10 +8,9 @@ const Student = props => {
 	return (
 		<div className="row mx-4 my-3 d-flex justify-content-between">
 			<div className="col-3">
-				{/* <div>Name: {obj.name}</div>
-				<div>First: {obj.first_name}</div>
-                <div>Last: {obj.last_name}</div> */}
-				<div>{obj.name}</div>
+				<div>
+					{obj.first_name} {obj.last_name}
+				</div>
 			</div>
 			<div className="col">student assistance</div>
 		</div>
