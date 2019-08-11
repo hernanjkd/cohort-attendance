@@ -6,29 +6,38 @@ const getState = ({ setStore, getActions }) => {
 				let url = `https://api.breatheco.de/students/cohort/${cohortSlug}?access_token=${
 					process.env.ACCESS_TOKEN
 				}`;
+
+				async function x() {
+					let response = await fetch(url, { cache: "no-cache" });
+					let data = await response.json();
+					setStore({ students: data.data });
+				}
+
+				x();
+
 				// Fetch students from cohort
-				fetch(url, { cache: "no-cache" })
-					.then(response => response.json())
-					.then(students => {
-						getActions("formatNames")(students.data);
+				// fetch(url, { cache: "no-cache" })
+				// 	.then(response => response.json())
+				// 	.then(students => {
+				// 		getActions("formatNames")(students.data);
 
-						// Fetch all activities from cohort
-						url = `https://assets.breatheco.de/apis/activity/cohort/${cohortSlug}?access_token=${
-							process.env.ASSETS_TOKEN
-						}`;
-						fetch(url, { cache: "no-cache" })
-							.then(response => response.json())
-							.then(activities => {
-								// Merge activities with their corresponding students
-								// activities.log.forEach(a => {
-								// 	console.log(a.user_id);
-								// 	students.data.find(e => e.id === a.user_id);
-								// });
-								console.log(activities);
-							});
+				// 		// Fetch all activities from cohort
+				// 		url = `https://assets.breatheco.de/apis/activity/cohort/${cohortSlug}?access_token=${
+				// 			process.env.ASSETS_TOKEN
+				// 		}`;
+				// 		fetch(url, { cache: "no-cache" })
+				// 			.then(response => response.json())
+				// 			.then(activities => {
+				// 				// Merge activities with their corresponding students
+				// 				// activities.log.forEach(a => {
+				// 				// 	console.log(a.user_id);
+				// 				// 	students.data.find(e => e.id === a.user_id);
+				// 				// });
+				// 				console.log(activities);
+				// 			});
 
-						// setStore({ students: students });
-					});
+				// 		// setStore({ students: students });
+				// 	});
 			},
 			formatNames: data => {
 				const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
