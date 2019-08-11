@@ -1,20 +1,21 @@
-const access_token = "ead2dc2fc5d1c5bcfa48b83ef1b6816034a5d575";
-const assets_token =
-	"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjbGllbnRJZCI6NTUzLCJpYXQiOjE1NjM1OTc3OTAsImV4cCI6MzMxMjA1NDk3OTB9.XPJ65Z27q2SbCKeI7omza9uVKJLEC0mH6XiniVzU8AA";
-
 const getState = ({ setStore, getActions }) => {
 	return {
 		store: [],
 		actions: {
+			alert: () => alert("working"),
 			getStudentsAndActivities: cohortSlug => {
-				let url = `https://api.breatheco.de/students/cohort/${cohortSlug}?access_token=${access_token}`;
+				let url = `https://api.breatheco.de/students/cohort/${cohortSlug}?access_token=${
+					process.env.ACCESS_TOKEN
+				}`;
 				fetch(url, { cache: "no-cache" })
 					.then(response => response.json())
 					.then(data => {
 						/****************************************************
 						 *  FETCH COHORT ACTIVITIES AND MATCH WITH STUDENT
 						 ****************************************************/
-						url = `https://assets.breatheco.de/apis/activity/cohort/${cohortSlug}?access_token=${assets_token}`;
+						url = `https://assets.breatheco.de/apis/activity/cohort/${cohortSlug}?access_token=${
+							process.env.ASSETS_TOKEN
+						}`;
 						fetch(url, { cache: "no-cache" })
 							.then(response => response.json())
 							.then(data => {
@@ -24,7 +25,7 @@ const getState = ({ setStore, getActions }) => {
 						setStore({ students: students });
 					});
 			},
-			formatNames(arrayObj) {
+			formatNames: arrayObj => {
 				const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 				const getUserName = email => email.substring(0, email.indexOf("@")).toLowerCase();
 				const fullTrim = str => {
