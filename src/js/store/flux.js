@@ -9,8 +9,8 @@ const getState = ({ setStore, getActions }) => {
 				fetch(url, { cache: "no-cache" })
 					.then(response => response.json())
 					.then(data => {
-						let cleanData = getActions("formatNames")(data.data);
-						setStore({ students: cleanData });
+						getActions("formatNames")(data.data);
+						setStore({ students: data.data });
 						/****************************************************
 						 *  FETCH COHORT ACTIVITIES AND MATCH WITH STUDENT
 						 ****************************************************/
@@ -26,7 +26,7 @@ const getState = ({ setStore, getActions }) => {
 						// setStore({ students: students });
 					});
 			},
-			formatNames: arrayObj => {
+			formatNames: data => {
 				const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 				const getUserName = email => email.substring(0, email.indexOf("@")).toLowerCase();
 				const fullTrim = str => {
@@ -36,13 +36,13 @@ const getState = ({ setStore, getActions }) => {
 					return newStr;
 				};
 
-				let formattedNames = [];
-				for (let e of arrayObj) {
-					let first = e.first_name;
-					let last = e.last_name;
+				for (let i in data) {
+					let first = data[i].first_name;
+					let last = data[i].last_name;
 					if (last === null) last = "";
 					// In the fetch url, Students have email, Users have username
-					let username = e.username === undefined ? getUserName(e.email) : getUserName(e.username);
+					let username =
+						data[i].username === undefined ? getUserName(data[i].email) : getUserName(data[i].username);
 					// first_name: null
 					// first_name: "null null"
 					if (first === null || first.includes("null")) {
@@ -89,13 +89,9 @@ const getState = ({ setStore, getActions }) => {
 							last = arrl.join(" ");
 						}
 					}
-					formattedNames.push({
-						...e,
-						first_name: first,
-						last_name: last
-					});
+					data[i].first_name = first;
+					data[i].last_name = last;
 				}
-				return formattedNames;
 			}
 		}
 	};
