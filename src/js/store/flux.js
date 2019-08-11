@@ -2,7 +2,6 @@ const getState = ({ setStore, getActions }) => {
 	return {
 		store: [],
 		actions: {
-			alert: () => alert("working"),
 			getStudentsAndActivities: cohortSlug => {
 				let url = `https://api.breatheco.de/students/cohort/${cohortSlug}?access_token=${
 					process.env.ACCESS_TOKEN
@@ -10,19 +9,21 @@ const getState = ({ setStore, getActions }) => {
 				fetch(url, { cache: "no-cache" })
 					.then(response => response.json())
 					.then(data => {
+						let cleanData = getActions("formatNames")(data.data);
+						console.log(cleanData);
 						/****************************************************
 						 *  FETCH COHORT ACTIVITIES AND MATCH WITH STUDENT
 						 ****************************************************/
-						url = `https://assets.breatheco.de/apis/activity/cohort/${cohortSlug}?access_token=${
-							process.env.ASSETS_TOKEN
-						}`;
-						fetch(url, { cache: "no-cache" })
-							.then(response => response.json())
-							.then(data => {
-								console.log(data);
-							});
+						// url = `https://assets.breatheco.de/apis/activity/cohort/${cohortSlug}?access_token=${
+						// 	process.env.ASSETS_TOKEN
+						// }`;
+						// fetch(url, { cache: "no-cache" })
+						// 	.then(response => response.json())
+						// 	.then(data => {
+						// 		console.log(data);
+						// 	});
 
-						setStore({ students: students });
+						// setStore({ students: students });
 					});
 			},
 			formatNames: arrayObj => {

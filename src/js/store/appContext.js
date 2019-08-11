@@ -29,36 +29,6 @@ const injectContext = PassedComponent => {
 						return { store: { ...store, cohorts: data.data } };
 					});
 				});
-			/********************************************************************* */
-			/********************************************************************* */
-			/********************************************************************* */
-			/********************************************************************* */
-			/********************************************************************* */
-			// // Get all students or users
-			// const access_token = "889b3a2f1e46637807e190bf1e9ad06b335aa23d";
-			// const availableEndPoints = ["students", "user"];
-			// const get = availableEndPoints[0];
-			// const url = `https://api.breatheco.de/${get}/?access_token=${access_token}`;
-			// fetch(url, { cache: "no-cache" })
-			// 	.then(response => response.json())
-			// 	.then(data => {
-			// 		// Solo para q muestre el nombre en el array en el console.log, pa ver mas rapido
-			// 		let cleanData = data.data.map(e => {
-			// 			return {
-			// 				first_name: e.first_name,
-			// 				last_name: e.last_name,
-			// 				email: get === "students" ? e.email : e.username,
-			// 				full_name: e.full_name,
-			// 				...e
-			// 			};
-			// 		});
-			// 		this.setState({ store: cleanData });
-			// 	});
-			/********************************************************************* */
-			/********************************************************************* */
-			/********************************************************************* */
-			/********************************************************************* */
-			/********************************************************************* */
 
 			// // A WAY OF SAVING TO STORE LEAVING THE OLD DATA, CREATES A NEW KEY DATA WITH THE VALUE OF DATA
 			// fetch(url)
