@@ -19,7 +19,7 @@ const getState = ({ setStore, getActions }) => {
 						fetch(url, { cache: "no-cache" })
 							.then(response => response.json())
 							.then(activities => {
-								// Combine activities with their corresponding students
+								// Merge activities with their corresponding students
 								// activities.log.forEach(a => {
 								// 	console.log(a.user_id);
 								// 	students.data.find(e => e.id === a.user_id);
