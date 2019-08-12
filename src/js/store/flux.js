@@ -7,13 +7,13 @@ const getState = ({ setStore, getActions }) => {
 					process.env.ACCESS_TOKEN
 				}`;
 
-				async function x() {
-					let response = await fetch(url, { cache: "no-cache" });
-					let data = await response.json();
+				async function asyncFetch(_url, _opt = {}) {
+					const response = await fetch(_url, _opt);
+					const data = await response.json();
 					setStore({ students: data.data });
 				}
-
-				x();
+				url = (id = "") => `https://api.breatheco.de/students/${id}?access_token=${process.env.ACCESS_TOKEN}`;
+				asyncFetch(url());
 
 				// Fetch students from cohort
 				// fetch(url, { cache: "no-cache" })
