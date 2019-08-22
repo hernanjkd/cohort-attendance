@@ -14,7 +14,7 @@ const getState = ({ setStore, getActions }) => {
 				fetch(url, { cache: "no-cache" })
 					.then(response => response.json())
 					.then(({ data }) => {
-						// getActions("formatNames")(data);
+						getActions("formatNames")(data);
 
 						// Fetch all activities from cohort
 						url = `https://assets.breatheco.de/apis/activity/cohort/${cohortSlug}?access_token=${
@@ -23,15 +23,15 @@ const getState = ({ setStore, getActions }) => {
 						fetch(url, { cache: "no-cache" })
 							.then(response => response.json())
 							.then(activities => {
-								// Merge activities with their corresponding students
-								// activities.log.forEach(a => {
-								// 	console.log(a.user_id);
-								// 	students.data.find(e => e.id === a.user_id);
-								// });
-								console.log("A", activities);
+								// Merge students with their activities
+								let obj = {};
+								activities.log.forEach(e => {
+									if (!obj[e.user_id]) obj[e.user_id] = [];
+									obj[e.user_id].push(e);
+								});
+								data.forEach(e => (e.activities = obj[e.id] ? obj[e.id] : []));
+								setStore({ students: data });
 							});
-						console.log(data);
-						setStore({ students: data });
 					});
 			},
 			formatNames: data => {
@@ -85,8 +85,8 @@ const getState = ({ setStore, getActions }) => {
 						}
 						// first_name: "john joe doe", last_name: ""
 						else if (arr.length === 3 && last === "") {
-							// first = capitalize(arr[0]) + " " + capitalize(arr[1]);
-							// last = capitalize(arr[2]);
+							first = capitalize(arr[0]) + " " + capitalize(arr[1]);
+							last = capitalize(arr[2]);
 						}
 						// first_name: "john billy", last_name: "joe doe"
 						else if (last !== "") {
