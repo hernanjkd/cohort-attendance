@@ -20,8 +20,15 @@ const Student = props => {
 						{store.students && store.students.length === 0 ? (
 							<img src={Loading} height="20" width="20" />
 						) : (
+							// Every student has many activities,
+							// they could or could not be attendance related
 							store.students.map(student =>
-								student.activities.map((activities, i) => <span key={i}>{activities.slug}</span>)
+								student.activities.filter(e => e.slug.includes("attendance")).map((a, i) => {
+									let show;
+									if (a.slug.includes("unattendance")) show = <img src={RedThumb} />;
+									else show = <img src={GreenThumb} />;
+									return show;
+								})
 							)
 						)}
 					</div>
