@@ -3,6 +3,7 @@ import { PropTypes } from "prop-types";
 import { Context } from "../store/appContext";
 import GreenThumb from "../../img/greenThumb.png";
 import RedThumb from "../../img/redThumb.png";
+import Loading from "../../img/loading.gif";
 
 const Student = props => {
 	const obj = props.studentData;
@@ -14,16 +15,17 @@ const Student = props => {
 				</div>
 			</div>
 			<Context.Consumer>
-				{({ store }) => {
-					let attendance = store.students.filter(e => e.activities.slug.includes("attendance"));
-					return (
-						<div className="col">
-							{attendance.map((e, i) => (
-								<span key={i}>{e.activities.slug}</span>
-							))}
-						</div>
-					);
-				}}
+				{({ store }) => (
+					<div className="col">
+						{store.students && store.students.length === 0 ? (
+							<img src={Loading} height="20" width="20" />
+						) : (
+							store.students.map(student =>
+								student.activities.map((activities, i) => <span key={i}>{activities.slug}</span>)
+							)
+						)}
+					</div>
+				)}
 			</Context.Consumer>
 		</div>
 	);
