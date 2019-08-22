@@ -1,43 +1,38 @@
 const getState = ({ setStore, getActions }) => {
 	return {
-		store: [],
+		store: {
+			cohorts: [],
+			students: []
+		},
 		actions: {
 			getStudentsAndActivities: cohortSlug => {
 				let url = `https://api.breatheco.de/students/cohort/${cohortSlug}?access_token=${
 					process.env.ACCESS_TOKEN
 				}`;
 
-				async function asyncFetch(_url, _opt = {}) {
-					const response = await fetch(_url, _opt);
-					const data = await response.json();
-					setStore({ students: data.data });
-				}
-				url = (id = "") => `https://api.breatheco.de/students/${id}?access_token=${process.env.ACCESS_TOKEN}`;
-				asyncFetch(url());
-
 				// Fetch students from cohort
-				// fetch(url, { cache: "no-cache" })
-				// 	.then(response => response.json())
-				// 	.then(students => {
-				// 		getActions("formatNames")(students.data);
+				fetch(url, { cache: "no-cache" })
+					.then(response => response.json())
+					.then(({ data }) => {
+						// getActions("formatNames")(data);
 
-				// 		// Fetch all activities from cohort
-				// 		url = `https://assets.breatheco.de/apis/activity/cohort/${cohortSlug}?access_token=${
-				// 			process.env.ASSETS_TOKEN
-				// 		}`;
-				// 		fetch(url, { cache: "no-cache" })
-				// 			.then(response => response.json())
-				// 			.then(activities => {
-				// 				// Merge activities with their corresponding students
-				// 				// activities.log.forEach(a => {
-				// 				// 	console.log(a.user_id);
-				// 				// 	students.data.find(e => e.id === a.user_id);
-				// 				// });
-				// 				console.log(activities);
-				// 			});
-
-				// 		// setStore({ students: students });
-				// 	});
+						// Fetch all activities from cohort
+						url = `https://assets.breatheco.de/apis/activity/cohort/${cohortSlug}?access_token=${
+							process.env.ASSETS_TOKEN
+						}`;
+						fetch(url, { cache: "no-cache" })
+							.then(response => response.json())
+							.then(activities => {
+								// Merge activities with their corresponding students
+								// activities.log.forEach(a => {
+								// 	console.log(a.user_id);
+								// 	students.data.find(e => e.id === a.user_id);
+								// });
+								console.log("A", activities);
+							});
+						console.log(data);
+						setStore({ students: data });
+					});
 			},
 			formatNames: data => {
 				const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
