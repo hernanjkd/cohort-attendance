@@ -7,7 +7,7 @@ export const Home = () => {
 		<Context.Consumer>
 			{({ store, actions }) => {
 				return (
-					<div className="container border border-secondary bg-light mt-2 p-3">
+					<div className="container border border-secondary bg-white mt-2 p-3">
 						<select onChange={e => actions.getStudentsAndActivities(e.target.value)}>
 							{store.cohorts.map((e, i) => {
 								return (
@@ -20,14 +20,14 @@ export const Home = () => {
 						{store.students.length === 0 ? (
 							<h2 className="text-center my-5">STUDENT INFORMATION NOT AVAILABLE</h2>
 						) : (
-							<div className="row mx-4 my-3 d-flex justify-content-between">
-								<div className="col-3">Everyone</div>
-								<div className="col">student assistance</div>
-							</div>
-						)}
+								<div className="row mx-4 my-3 d-flex justify-content-between">
+									<div className="col-3">Everyone</div>
+									<div className="col">student assistance</div>
+								</div>
+							)}
 
 						{store.students.map((e, i) => {
-							return <Student key={i} studentData={e} />;
+							return <Student key={i} studentData={e} dates={} />;
 						})}
 					</div>
 				);
