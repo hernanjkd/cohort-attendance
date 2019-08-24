@@ -35,9 +35,11 @@ const getState = ({ setStore, getActions }) => {
 							.then(activities => {
 								// Merge students with their activities
 								let obj = {};
-								activities.log.forEach(e => {
-									if (!obj[e.user_id]) obj[e.user_id] = [];
-									obj[e.user_id].push(e);
+								activities.log.filter(e => e.slug.includes("attendance")).forEach(e => {
+									// Create temp obj to store all activities by student id
+									if (!obj[e.user_id]) obj[e.user_id] = {};
+									// Inside also store all the activities by creating a day property
+									obj[e.user_id][`day${JSON.parse(e.data).day}`] = e;
 								});
 								data.forEach(e => (e.activities = obj[e.id] ? obj[e.id] : []));
 								setStore({ students: data });
