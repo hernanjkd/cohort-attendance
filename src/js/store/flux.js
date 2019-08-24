@@ -2,7 +2,8 @@ const getState = ({ setStore, getActions }) => {
 	return {
 		store: {
 			cohorts: [],
-			students: []
+			students: [],
+			zoom: false
 		},
 		actions: {
 			getStudentsAndActivities: cohortSlug => {
