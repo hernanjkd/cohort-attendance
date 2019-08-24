@@ -25,6 +25,7 @@ const injectContext = PassedComponent => {
 				.then(response => response.json())
 				.then(data => {
 					this.setState(({ store }) => {
+						console.log(data.data);
 						data.data.sort((a, b) => (new Date(a.kickoff_date) < new Date(b.kickoff_date) ? 1 : -1));
 						return { store: { ...store, cohorts: data.data } };
 					});

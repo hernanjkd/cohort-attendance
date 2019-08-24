@@ -16,31 +16,31 @@ const getState = ({ setStore, getActions }) => {
 					.then(({ data }) => {
 						getActions("formatNames")(data);
 
-						data.forEach(e => {
-							url = `https://assets.breatheco.de/apis/activity/student/${e.id}?access_token=${
-								process.env.ASSETS_TOKEN
-							}`;
-							fetch(url, { cache: "no-cache" })
-								.then(resp => resp.json())
-								.then(data => console.log(data));
-						});
-
-						// // Fetch all activities from cohort
-						// url = `https://assets.breatheco.de/apis/activity/cohort/${cohortSlug}?access_token=${
-						// 	process.env.ASSETS_TOKEN
+						// data.forEach(e => {
+						// 	url = `https://api.breatheco.de/apis/activity/student/${e.id}?access_token=${
+						// 		process.env.ASSETS_TOKEN
 						// 	}`;
-						// fetch(url, { cache: "no-cache" })
-						// 	.then(response => response.json())
-						// 	.then(activities => {
-						// 		// Merge students with their activities
-						// 		let obj = {};
-						// 		activities.log.forEach(e => {
-						// 			if (!obj[e.user_id]) obj[e.user_id] = [];
-						// 			obj[e.user_id].push(e);
-						// 		});
-						// 		data.forEach(e => (e.activities = obj[e.id] ? obj[e.id] : []));
-						// 		setStore({ students: data });
-						// 	});
+						// 	fetch(url, { cache: "no-cache" })
+						// 		.then(resp => resp.json())
+						// 		.then(data => console.log(data));
+						// });
+
+						// Fetch all activities from cohort
+						url = `https://assets.breatheco.de/apis/activity/cohort/${cohortSlug}?access_token=${
+							process.env.ASSETS_TOKEN
+						}`;
+						fetch(url, { cache: "no-cache" })
+							.then(response => response.json())
+							.then(activities => {
+								// Merge students with their activities
+								let obj = {};
+								activities.log.forEach(e => {
+									if (!obj[e.user_id]) obj[e.user_id] = [];
+									obj[e.user_id].push(e);
+								});
+								data.forEach(e => (e.activities = obj[e.id] ? obj[e.id] : []));
+								setStore({ students: data });
+							});
 					});
 			},
 			formatNames: data => {
