@@ -41,6 +41,7 @@ const getState = ({ setStore, getActions }) => {
 								});
 								data.forEach(e => (e.activities = obj[e.id] ? obj[e.id] : []));
 								setStore({ students: data });
+								console.log(data);
 							});
 					});
 			},

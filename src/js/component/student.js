@@ -17,15 +17,19 @@ const Student = props => {
 						</div>
 						<div className="col">
 							<table>
-								<tr>
-									{data.activities.map((e, i) => {
-										return (
-											<td key={i} className="thumbs mx-5">
-												<img src={e.slug.includes("unattendance") ? RedThumb : GreenThumb} />
-											</td>
-										);
-									})}
-								</tr>
+								<tbody>
+									<tr>
+										{data.activities.map((e, i) => {
+											return (
+												<td key={i} className="thumbs mx-5">
+													<img
+														src={e.slug.includes("unattendance") ? RedThumb : GreenThumb}
+													/>
+												</td>
+											);
+										})}
+									</tr>
+								</tbody>
 							</table>
 						</div>
 					</div>
