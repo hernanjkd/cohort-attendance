@@ -14,18 +14,8 @@ const getState = ({ setStore, getActions }) => {
 				// Fetch students from cohort
 				fetch(url, { cache: "no-cache" })
 					.then(response => response.json())
-					.then(({ data }) => {
-						getActions("formatNames")(data);
-
-						// data.forEach(e => {
-						// 	url = `https://api.breatheco.de/apis/activity/student/${e.id}?access_token=${
-						// 		process.env.ASSETS_TOKEN
-						// 	}`;
-						// 	fetch(url, { cache: "no-cache" })
-						// 		.then(resp => resp.json())
-						// 		.then(data => console.log(data));
-						// });
-
+					.then(({ data: students }) => {
+						getActions("formatNames")(students);
 						// Fetch all activities from cohort
 						url = `https://assets.breatheco.de/apis/activity/cohort/${cohortSlug}?access_token=${
 							process.env.ASSETS_TOKEN
@@ -34,16 +24,23 @@ const getState = ({ setStore, getActions }) => {
 							.then(response => response.json())
 							.then(activities => {
 								// Merge students with their activities
-								let obj = {};
+								let studentActivities = {};
+								let dailyActivities = {};
 								activities.log.filter(e => e.slug.includes("attendance")).forEach(e => {
+									let day = `day${JSON.parse(e.data).day}`;
 									// Create temp obj to store all activities by student id
-									if (!obj[e.user_id]) obj[e.user_id] = {};
+									if (!studentActivities[e.user_id]) studentActivities[e.user_id] = {};
+									if (!dailyActivities[day]) dailyActivities[day] = [];
 									// Inside also store all the activities by creating a day property
-									obj[e.user_id][`day${JSON.parse(e.data).day}`] = e;
+									studentActivities[e.user_id][day] = e;
+									dailyActivities[day].push(e.slug);
 								});
-								data.forEach(e => (e.activities = obj[e.id] ? obj[e.id] : []));
-								setStore({ students: data });
-								console.log(data);
+
+								students.forEach(
+									e => (e.activities = studentActivities[e.id] ? studentActivities[e.id] : [])
+								);
+								setStore({ students });
+								//console.log(students);
 							});
 					});
 			},
