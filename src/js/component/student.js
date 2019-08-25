@@ -11,37 +11,25 @@ const Student = props => {
 		<Context.Consumer>
 			{({ store }) => {
 				return (
-					<div className="row mx-4 my-3 d-flex justify-content-between">
-						<div className="col-3">
+					<tr>
+						<td>
 							{data.first_name} {data.last_name}
-						</div>
-						<div className="col">
-							<table>
-								<tbody>
-									<tr>
-										{new Array(20).fill(null).map((e, i) => {
-											let act = data.activities;
-											return (
-												<td key={i} className="thumbs mx-5">
-													{!act[`day${i}`] ? (
-														<i className="fas fa-exclamation-circle text-sand fa-lg" />
-													) : (
-														<img
-															src={
-																act[`day${i}`].slug.includes("unattendance")
-																	? RedThumb
-																	: GreenThumb
-															}
-														/>
-													)}
-												</td>
-											);
-										})}
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
+						</td>
+						{new Array(props.daysInCohort).fill(null).map((e, i) => {
+							let act = data.activities;
+							return (
+								<td key={i} className="thumbs mx-5">
+									{!act[`day${i}`] ? (
+										<i className="fas fa-exclamation-circle text-sand fa-lg" />
+									) : (
+										<img
+											src={act[`day${i}`].slug.includes("unattendance") ? RedThumb : GreenThumb}
+										/>
+									)}
+								</td>
+							);
+						})}
+					</tr>
 				);
 			}}
 		</Context.Consumer>
@@ -49,6 +37,7 @@ const Student = props => {
 };
 
 Student.propTypes = {
-	studentData: PropTypes.object
+	studentData: PropTypes.object,
+	daysInCohort: PropTypes.number
 };
 export default Student;

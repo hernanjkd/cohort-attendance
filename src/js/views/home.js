@@ -20,15 +20,19 @@ export const Home = () => {
 						{store.students.length === 0 ? (
 							<h2 className="text-center my-5">STUDENT INFORMATION NOT AVAILABLE</h2>
 						) : (
-							<div className="row mx-4 my-3 d-flex justify-content-between">
-								<div className="col-3">Everyone</div>
-								<div className="col">student assistance</div>
-							</div>
-						)}
+							<table>
+								<tbody>
+									<tr>
+										<td>Everyone</td>
+										<td>student assistance</td>
+									</tr>
 
-						{store.students.map((e, i) => {
-							return <Student key={i} studentData={e} />;
-						})}
+									{store.students.map((e, i) => {
+										return <Student key={i} studentData={e} daysInCohort={20} />;
+									})}
+								</tbody>
+							</table>
+						)}
 					</div>
 				);
 			}}
