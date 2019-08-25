@@ -12,11 +12,11 @@ const Student = props => {
 			{({ store }) => {
 				return (
 					<tr>
-						<td className="border p-3 d-flex justify-content-between">
-							<span>
+						<td className="border rounded my-2 d-flex justify-content-between">
+							<span className="p-2">
 								{data.first_name} {data.last_name}
 							</span>
-							<span>{Math.round(data.attendance.avg)}%</span>
+							<span className="p-2">{Math.round(data.attendance.avg)}%</span>
 						</td>
 						{new Array(props.daysInCohort).fill(null).map((e, i) => {
 							return (
