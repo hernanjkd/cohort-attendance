@@ -19,15 +19,21 @@ const Student = props => {
 							<table>
 								<tbody>
 									<tr>
-										{new Array(20).map((e, i) => {
+										{new Array(20).fill(null).map((e, i) => {
 											let act = data.activities;
 											return (
 												<td key={i} className="thumbs mx-5">
-													{/* <img
-														src={e.slug.includes("unattendance") ? RedThumb : GreenThumb}
-													/> */}
-													{act[`day${i}`]}
-													asdfasdf
+													{!act[`day${i}`] ? (
+														<i className="fas fa-exclamation-circle text-sand fa-lg" />
+													) : (
+														<img
+															src={
+																act[`day${i}`].slug.includes("unattendance")
+																	? RedThumb
+																	: GreenThumb
+															}
+														/>
+													)}
 												</td>
 											);
 										})}
