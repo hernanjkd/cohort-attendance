@@ -3,6 +3,7 @@ const getState = ({ setStore, getActions }) => {
 		store: {
 			cohorts: [],
 			students: [],
+			dailyAvg: {},
 			zoom: false
 		},
 		actions: {
@@ -24,22 +25,25 @@ const getState = ({ setStore, getActions }) => {
 							.then(response => response.json())
 							.then(activities => {
 								// Merge students with their activities
-								let studentActivities = {};
-								let dailyActivities = {};
+								let studentActivities = {}; // {student_id: {day0: unattendance, day1: attendance, ...}}
+								let dailyAvg = {}; // {day0: 89%, day1: 61%, ...}
 								activities.log.filter(e => e.slug.includes("attendance")).forEach(e => {
 									let day = `day${JSON.parse(e.data).day}`;
 									// Create temp obj to store all activities by student id
 									if (!studentActivities[e.user_id]) studentActivities[e.user_id] = {};
-									if (!dailyActivities[day]) dailyActivities[day] = [];
+									if (!dailyAvg[day]) dailyAvg[day] = 0;
 									// Inside also store all the activities by creating a day property
 									studentActivities[e.user_id][day] = e;
-									dailyActivities[day].push(e.slug);
+									dailyAvg[day] += e.slug.includes("unattendance") ? 0 : 1;
 								});
-
+								// divide by the number of students to get the avg
+								Object.keys(dailyAvg).map(
+									key => (dailyAvg[key] = (dailyAvg[key] / students.length) * 100)
+								);
 								students.forEach(
 									e => (e.activities = studentActivities[e.id] ? studentActivities[e.id] : [])
 								);
-								setStore({ students });
+								setStore({ students, dailyAvg });
 								//console.log(students);
 							});
 					});
