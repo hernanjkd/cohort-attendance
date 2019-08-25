@@ -4,6 +4,7 @@ const getState = ({ setStore, getActions }) => {
 			cohorts: [],
 			students: [],
 			dailyAvg: {},
+			calculations: {},
 			zoom: false
 		},
 		actions: {
@@ -25,26 +26,36 @@ const getState = ({ setStore, getActions }) => {
 							.then(response => response.json())
 							.then(activities => {
 								// Merge students with their activities
-								let studentActivities = {}; // {student_id: {day0: unattendance, day1: attendance, ...}}
+								let stuAct = {}; // {student_id: {day0: unattendance, day1: attendance, ...}}
 								let dailyAvg = {}; // {day0: 89%, day1: 61%, ...}
+
 								activities.log.filter(e => e.slug.includes("attendance")).forEach(e => {
 									let day = `day${JSON.parse(e.data).day}`;
 									// Create temp obj to store all activities by student id
-									if (!studentActivities[e.user_id]) studentActivities[e.user_id] = {};
-									if (!dailyAvg[day]) dailyAvg[day] = 0;
+									if (stuAct[e.user_id] === undefined) {
+										stuAct[e.user_id] = {};
+										stuAct[e.user_id].avg = 0;
+									}
+									if (dailyAvg[day] === undefined) {
+										dailyAvg[day] = 0;
+									}
 									// Inside also store all the activities by creating a day property
-									studentActivities[e.user_id][day] = e;
+									stuAct[e.user_id][day] = e;
+									stuAct[e.user_id].avg += e.slug.includes("unattendance") ? 0 : 1;
 									dailyAvg[day] += e.slug.includes("unattendance") ? 0 : 1;
 								});
 								// divide by the number of students to get the avg
 								Object.keys(dailyAvg).map(
 									key => (dailyAvg[key] = (dailyAvg[key] / students.length) * 100)
 								);
-								students.forEach(
-									e => (e.activities = studentActivities[e.id] ? studentActivities[e.id] : [])
+								// divide by the amount of days recorded to get the avg
+								Object.keys(stuAct).map(
+									key =>
+										(stuAct[key].avg =
+											(stuAct[key].avg / (Object.keys(stuAct[key]).length - 1)) * 100) // Minus the avg key
 								);
+								students.forEach(e => (e.attendance = stuAct[e.id] ? stuAct[e.id] : []));
 								setStore({ students, dailyAvg });
-								//console.log(students);
 							});
 					});
 			},

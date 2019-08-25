@@ -12,18 +12,24 @@ const Student = props => {
 			{({ store }) => {
 				return (
 					<tr>
-						<td>
-							{data.first_name} {data.last_name}
+						<td className="border p-3 d-flex justify-content-between">
+							<span>
+								{data.first_name} {data.last_name}
+							</span>
+							<span>{Math.round(data.attendance.avg)}%</span>
 						</td>
 						{new Array(props.daysInCohort).fill(null).map((e, i) => {
-							let act = data.activities;
 							return (
-								<td key={i} className="thumbs mx-5">
-									{!act[`day${i}`] ? (
+								<td key={i} className="">
+									{!data.attendance[`day${i}`] ? (
 										<i className="fas fa-exclamation-circle text-sand fa-lg" />
 									) : (
 										<img
-											src={act[`day${i}`].slug.includes("unattendance") ? RedThumb : GreenThumb}
+											src={
+												data.attendance[`day${i}`].slug.includes("unattendance")
+													? RedThumb
+													: GreenThumb
+											}
 										/>
 									)}
 								</td>
