@@ -11,7 +11,7 @@ export const Home = () => {
 			{({ store, actions }) => {
 				let daysInCohort = 20;
 				return (
-					<div className="container border border-secondary bg-white mt-2 p-3">
+					<div className="mt-2 p-3">
 						<select onChange={e => actions.getStudentsAndActivities(e.target.value)}>
 							{store.cohorts.map((e, i) => {
 								return (
@@ -27,8 +27,8 @@ export const Home = () => {
 							<table>
 								<tbody>
 									<tr>
-										<td className="border rounded my-2 d-flex justify-content-between">
-											<b className="p-2 mt-3">Everyone</b>
+										<td className="border rounded my-2 mt-4 d-flex justify-content-between mr-4">
+											<b className="p-2">Everyone</b>
 											<b className="p-2">
 												{Math.round(
 													store.students.reduce((total, x) => total + x.attendance.avg, 0) /
@@ -39,15 +39,23 @@ export const Home = () => {
 										</td>
 										{new Array(daysInCohort).fill(null).map((e, i) => {
 											return (
-												<td key={i}>
+												<td key={i} className="p-1">
 													{store.dailyAvg[`day${i}`] === undefined ? (
-														<i className="fas fa-exclamation-circle text-sand fa-lg" />
+														<i className="fas fa-exclamation-circle text-sand fa-lg cursor-pointer" />
 													) : (
-														<img
-															src={
-																store.dailyAvg[`day${i}`] >= 85 ? GreenThumb : RedThumb
-															}
-														/>
+														<span
+															onMouseOver={e => {
+																e.target.appendChild(document.createElement());
+															}}>
+															<img
+																className="cursor-pointer"
+																src={
+																	store.dailyAvg[`day${i}`] >= 85
+																		? GreenThumb
+																		: RedThumb
+																}
+															/>
+														</span>
 													)}
 												</td>
 											);
