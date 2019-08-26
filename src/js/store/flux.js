@@ -4,7 +4,7 @@ const getState = ({ setStore, getActions }) => {
 			cohorts: [],
 			students: [],
 			dailyAvg: {},
-			calculations: {},
+			totalAvg: null,
 			zoom: false
 		},
 		actions: {

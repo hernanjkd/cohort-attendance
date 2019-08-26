@@ -10,13 +10,6 @@ export const Home = () => {
 		<Context.Consumer>
 			{({ store, actions }) => {
 				let daysInCohort = 20;
-				let totalAvg = 0;
-				let sec = 0;
-				if (store.students.legnth > 0) {
-					totalAvg =
-						store.students.reduce((x, y) => x.attendance.avg + y.attendance.avg, 0) / store.students.length;
-					sec = Object.values(store.dailyAvg).reduce((x, y) => x + y, 0) / store.students.length;
-				}
 				return (
 					<div className="container border border-secondary bg-white mt-2 p-3">
 						<select onChange={e => actions.getStudentsAndActivities(e.target.value)}>
@@ -35,9 +28,13 @@ export const Home = () => {
 								<tbody>
 									<tr>
 										<td className="border rounded my-2 d-flex justify-content-between">
-											<b className="p-2">Everyone</b>
-											<b>
-												{totalAvg} {sec}
+											<b className="p-2 mt-3">Everyone</b>
+											<b className="p-2">
+												{Math.round(
+													store.students.reduce((total, x) => total + x.attendance.avg, 0) /
+														store.students.length
+												)}
+												%
 											</b>
 										</td>
 										{new Array(daysInCohort).fill(null).map((e, i) => {
