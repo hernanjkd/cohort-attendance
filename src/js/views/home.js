@@ -43,10 +43,7 @@ export const Home = () => {
 													{store.dailyAvg[`day${i}`] === undefined ? (
 														<i className="fas fa-exclamation-circle text-sand fa-lg cursor-pointer" />
 													) : (
-														<span
-															onMouseOver={e => {
-																e.target.appendChild(document.createElement());
-															}}>
+														<span>
 															<img
 																className="cursor-pointer"
 																src={
