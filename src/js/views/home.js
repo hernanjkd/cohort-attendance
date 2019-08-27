@@ -9,7 +9,7 @@ export const Home = () => {
 				let daysInCohort = 20;
 				return (
 					<div className="mt-2 p-3">
-						<select onChange={e => actions.getStudentsAndActivities(e.target.value)}>
+						<select className="mb-4" onChange={e => actions.getStudentsAndActivities(e.target.value)}>
 							{store.cohorts.map((e, i) => {
 								return (
 									<option key={i} value={e.slug}>
@@ -24,7 +24,7 @@ export const Home = () => {
 							<table>
 								<tbody>
 									<tr>
-										<td className="border rounded my-2 mt-4 d-flex justify-content-between mr-4">
+										<td className="border rounded my-2 d-flex justify-content-between mr-4">
 											<b className="p-2">Everyone</b>
 											<b className="p-2">
 												{Math.round(
