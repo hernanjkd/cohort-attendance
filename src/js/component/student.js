@@ -1,9 +1,6 @@
 import React from "react";
 import { PropTypes } from "prop-types";
 
-import GreenThumb from "../../img/greenThumb.png";
-import RedThumb from "../../img/redThumb.png";
-
 const Student = props => {
 	const data = props.studentData;
 	return (
@@ -19,11 +16,10 @@ const Student = props => {
 					<td key={i} className="p-1">
 						{!data.attendance[`day${i}`] ? (
 							<i className="fas fa-exclamation-circle text-sand fa-lg cursor-pointer" />
+						) : data.attendance[`day${i}`].slug.includes("unattendance") ? (
+							<i className="fas fa-thumbs-down font-size-20px text-darkred" />
 						) : (
-							<img
-								className="cursor-pointer"
-								src={data.attendance[`day${i}`].slug.includes("unattendance") ? RedThumb : GreenThumb}
-							/>
+							<i className="fas fa-thumbs-up font-size-20px text-darkgreen" />
 						)}
 					</td>
 				);

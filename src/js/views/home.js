@@ -2,9 +2,6 @@ import React from "react";
 import { Context } from "../store/appContext";
 import Student from "../component/student";
 
-import GreenThumb from "../../img/greenThumb.png";
-import RedThumb from "../../img/redThumb.png";
-
 export const Home = () => {
 	return (
 		<Context.Consumer>
@@ -44,14 +41,11 @@ export const Home = () => {
 														<i className="fas fa-exclamation-circle text-sand fa-lg cursor-pointer" />
 													) : (
 														<span>
-															<img
-																className="cursor-pointer"
-																src={
-																	store.dailyAvg[`day${i}`] >= 85
-																		? GreenThumb
-																		: RedThumb
-																}
-															/>
+															{store.dailyAvg[`day${i}`] >= 85 ? (
+																<i className="fas fa-thumbs-up font-size-25px text-darkgreen" />
+															) : (
+																<i className="fas fa-thumbs-down font-size-25px text-darkred" />
+															)}
 														</span>
 													)}
 												</td>
