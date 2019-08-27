@@ -17,9 +17,9 @@ const Student = props => {
 						{!data.attendance[`day${i}`] ? (
 							<i className="fas fa-exclamation-circle text-sand fa-lg cursor-pointer" />
 						) : data.attendance[`day${i}`].slug.includes("unattendance") ? (
-							<i className="fas fa-thumbs-down font-size-20px text-darkred" />
+							<i className="fas fa-thumbs-down font-size-25px text-darkred" />
 						) : (
-							<i className="fas fa-thumbs-up font-size-20px text-darkgreen" />
+							<i className="fas fa-thumbs-up font-size-25px text-darkgreen" />
 						)}
 					</td>
 				);
