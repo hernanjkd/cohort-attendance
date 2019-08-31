@@ -5,7 +5,9 @@ const Student = props => {
 	const data = props.studentData;
 	return (
 		<tr>
-			<td className="border rounded my-2 d-flex justify-content-between mr-4">
+			<td
+				className="border rounded my-2 d-flex justify-content-between mr-4 h-50px
+			align-items-center">
 				<span className="p-2">
 					{data.first_name} {data.last_name}
 				</span>

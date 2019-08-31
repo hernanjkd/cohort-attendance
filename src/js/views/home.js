@@ -8,7 +8,7 @@ export const Home = () => {
 			{({ store, actions }) => {
 				let daysInCohort = 120;
 				return (
-					<div className="mt-2 p-3">
+					<div className="mt-2 p-3 line-height-1">
 						<select className="mb-4" onChange={e => actions.getStudentsAndActivities(e.target.value)}>
 							{store.cohorts.map((e, i) => {
 								return (
