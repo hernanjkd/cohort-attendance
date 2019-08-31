@@ -21,7 +21,7 @@ export const Home = () => {
 						{store.students.length === 0 ? (
 							<h2 className="text-center my-5">STUDENT INFORMATION NOT AVAILABLE</h2>
 						) : (
-							<div style={{ width: "600px", overflow: "scroll" }}>
+							<div style={{ width: "1000px", overflow: "scroll" }}>
 								<table>
 									<tbody>
 										<tr>
