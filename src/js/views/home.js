@@ -21,12 +21,12 @@ export const Home = () => {
 							<h2 className="text-center my-5">STUDENT INFORMATION NOT AVAILABLE</h2>
 						) : (
 							<div>
-								<table className="d-inline-block">
+								<table className="d-inline-block cell-spacing">
 									<tbody>
 										<tr>
 											<td
 												className="border rounded d-flex justify-content-between 
-													mr-4 h-50px align-items-center border-box">
+													mr-4 h-50px align-items-center">
 												<b className="p-2 w-200px">Everyone</b>
 												<b className="p-2">
 													{Math.round(
@@ -43,8 +43,8 @@ export const Home = () => {
 											<tr key={i}>
 												<td
 													className="border rounded d-flex justify-content-between mr-4 h-50px
-														align-items-center border-box">
-													<span className="p-2">
+														align-items-center">
+													<span className="p-2 w-200px">
 														{e.first_name} {e.last_name}
 													</span>
 													<span className="p-2">{Math.round(e.attendance.avg)}%</span>
@@ -53,12 +53,12 @@ export const Home = () => {
 										))}
 									</tbody>
 								</table>
-								<div className="d-inline-block" style={{ width: "700px", overflow: "scroll" }}>
-									<table style={{ "border-spacing": "10px 0" }}>
+								<div className="d-inline-block overflow">
+									<table className="cell-spacing">
 										<tbody>
-											<tr>
+											<tr className=" hover-gray">
 												{new Array(daysInCohort).fill(null).map((e, i) => (
-													<td key={i} className="p-1 my-2 h-50px border-box">
+													<td key={i} className="p-1 h-50px">
 														{store.dailyAvg[`day${i}`] === undefined ? (
 															<i className="fas fa-exclamation-circle text-sand fa-lg cursor-pointer" />
 														) : (
@@ -75,9 +75,9 @@ export const Home = () => {
 											</tr>
 
 											{store.students.map((data, i) => (
-												<tr key={i}>
+												<tr key={i} className="hover-gray">
 													{new Array(daysInCohort).fill(null).map((e, i) => (
-														<td key={i} className="p-1 h-50px border-box border">
+														<td key={i} className="p-1 h-50px">
 															{!data.attendance[`day${i}`] ? (
 																<i className="fas fa-exclamation-circle text-sand fa-lg cursor-pointer" />
 															) : data.attendance[`day${i}`].slug.includes(
