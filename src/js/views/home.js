@@ -1,12 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { Context } from "../store/appContext";
 import Popover from "../component/popover";
 
+const months = [
+	"January",
+	"February",
+	"March",
+	"April",
+	"May",
+	"June",
+	"July",
+	"August",
+	"September",
+	"October",
+	"November",
+	"December"
+];
+
 export const Home = () => {
+	const [zoom, setZoom] = useState("font-size-10px");
 	return (
 		<Context.Consumer>
 			{({ store, actions }) => {
-				let daysInCohort = 120;
+				const daysInCohort = 120;
+				const noData = <i className={`fas fa-exclamation-circle text-sand cursor-pointer ${zoom}`} />;
+				const thumbsUp = <i className={`fas fa-thumbs-up text-darkgreen cursor-pointer ${zoom}`} />;
+				const thumbsDown = <i className={`fas fa-thumbs-down text-darkred cursor-pointer ${zoom}`} />;
 				return (
 					<div className="mt-2 p-3 line-height-1">
 						<select className="mb-4" onChange={e => actions.getStudentsAndActivities(e.target.value)}>
@@ -20,8 +39,26 @@ export const Home = () => {
 							<h2 className="text-center my-5">STUDENT INFORMATION NOT AVAILABLE</h2>
 						) : (
 							<div>
+								<span
+									className="position-absolute cursor-pointer"
+									style={{ right: "50px", top: "30px" }}>
+									{zoom.includes("10px") ? (
+										<i
+											className="fas fa-search-plus fa-lg"
+											onClick={() => setZoom("font-size-25px")}
+										/>
+									) : (
+										<i
+											className="fas fa-search-minus fa-lg"
+											onClick={() => setZoom("font-size-10px")}
+										/>
+									)}
+								</span>
 								<table className="d-inline-block cell-spacing">
 									<tbody>
+										{/*******************
+										 *   EVERYONE NAME
+										 *********************/}
 										<tr>
 											<td
 												className="border rounded d-flex justify-content-between 
@@ -38,6 +75,9 @@ export const Home = () => {
 												</b>
 											</td>
 										</tr>
+										{/************************
+										 *   ALLS STUDENT NAMES
+										 **************************/}
 										{store.students.map((e, i) => (
 											<tr key={i}>
 												<td
@@ -55,41 +95,68 @@ export const Home = () => {
 								<div className="d-inline-block overflow">
 									<table className="cell-spacing">
 										<tbody>
+											{/******************************
+											 *   FIRST ROW DAYS IN COHORT
+											 ********************************/}
 											<tr className=" hover-gray">
 												{new Array(daysInCohort).fill(null).map((e, i) => (
 													<td key={i} className="p-1 h-50px">
-														{store.dailyAvg[`day${i + 1}`] === undefined ? (
-															<i className="fas fa-exclamation-circle text-sand fa-lg cursor-pointer" />
-														) : (
-															<span>
-																{store.dailyAvg[`day${i + 1}`] >= 85 ? (
-																	<i className="fas fa-thumbs-up font-size-25px text-darkgreen" />
-																) : (
-																	<i className="fas fa-thumbs-down font-size-25px text-darkred" />
-																)}
-															</span>
-														)}
+														<Popover
+															body={
+																<div className="pop">
+																	<div>Day {i + 1}</div>
+																	{store.dailyAvg[`day${i + 1}`] ? (
+																		<div>{store.dailyAvg[`day${i + 1}`]}%</div>
+																	) : (
+																		""
+																	)}
+																</div>
+															}>
+															{store.dailyAvg[`day${i + 1}`] === undefined
+																? noData
+																: store.dailyAvg[`day${i + 1}`] >= 85
+																	? thumbsUp
+																	: thumbsDown}
+														</Popover>
 													</td>
 												))}
 											</tr>
-
+											{/*********************************
+											 *   ALLS STUDENT DAYS IN COHORT
+											 ***********************************/}
 											{store.students.map((data, i) => (
 												<tr key={i} className="hover-gray">
-													{new Array(daysInCohort).fill(null).map((e, i) => (
-														<td key={i} className="p-1 h-50px">
-															{!data.attendance[`day${i + 1}`] ? (
-																<Popover body={<div className="">Day {i}</div>}>
-																	<i className="fas fa-exclamation-circle text-sand fa-lg cursor-pointer" />
+													{new Array(daysInCohort).fill(null).map((e, i) => {
+														let d = data.attendance[`day${i + 1}`]
+															? data.attendance[`day${i + 1}`].created_at.date
+															: null;
+														let date = "";
+														if (d) {
+															date = new Date(d);
+															date = `${
+																months[date.getMonth()]
+															} ${date.getDate()}, ${date.getFullYear()}`;
+														}
+														return (
+															<td key={i} className="p-1 h-50px">
+																<Popover
+																	body={
+																		<div className="pop">
+																			<div>Day {i + 1}</div>
+																			<div>{date}</div>
+																		</div>
+																	}>
+																	{!data.attendance[`day${i + 1}`]
+																		? noData
+																		: data.attendance[`day${i + 1}`].slug.includes(
+																				"unattendance"
+																		  )
+																			? thumbsDown
+																			: thumbsUp}
 																</Popover>
-															) : data.attendance[`day${i + 1}`].slug.includes(
-																"unattendance"
-															) ? (
-																<i className="fas fa-thumbs-down font-size-25px text-darkred" />
-															) : (
-																<i className="fas fa-thumbs-up font-size-25px text-darkgreen" />
-															)}
-														</td>
-													))}
+															</td>
+														);
+													})}
 												</tr>
 											))}
 										</tbody>

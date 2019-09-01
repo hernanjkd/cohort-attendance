@@ -10,6 +10,10 @@
 	color: darkgreen;
 }
 
+.font-size-10px {
+	font-size: 10px;
+}
+
 .font-size-25px {
 	font-size: 25px;
 }
@@ -39,11 +43,12 @@
 	border-spacing: 0 10px;
 }
 
-.popover {
-	//background: white;
-	//border: 1px solid black;
-	//border-radius: 10px 10px 10px 10px;
-	//padding: 5px;
+.pop {
+	font-size: 12px;
+	background: white;
+	border: 1px solid black;
+	border-radius: 5px;
+	padding: 5px;
 }
 
 .overflow {
