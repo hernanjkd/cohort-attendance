@@ -100,7 +100,7 @@ export const Home = () => {
 											 ********************************/}
 											<tr className=" hover-gray">
 												{new Array(daysInCohort).fill(null).map((e, i) => (
-													<td key={i} className="p-1 h-50px">
+													<td key={i} className="h-50px">
 														<Popover
 															body={
 																<div className="pop">
@@ -138,7 +138,7 @@ export const Home = () => {
 															} ${date.getDate()}, ${date.getFullYear()}`;
 														}
 														return (
-															<td key={i} className="p-1 h-50px">
+															<td key={i} className="h-50px">
 																<Popover
 																	body={
 																		<div className="pop">
