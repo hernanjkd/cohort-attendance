@@ -1,5 +1,6 @@
 import React from "react";
 import { Context } from "../store/appContext";
+import Popover from "../component/popover";
 
 export const Home = () => {
 	return (
@@ -9,13 +10,11 @@ export const Home = () => {
 				return (
 					<div className="mt-2 p-3 line-height-1">
 						<select className="mb-4" onChange={e => actions.getStudentsAndActivities(e.target.value)}>
-							{store.cohorts.map((e, i) => {
-								return (
-									<option key={i} value={e.slug}>
-										{e.name}
-									</option>
-								);
-							})}
+							{store.cohorts.map((e, i) => (
+								<option key={i} value={e.slug}>
+									{e.name}
+								</option>
+							))}
 						</select>
 						{store.students.length === 0 ? (
 							<h2 className="text-center my-5">STUDENT INFORMATION NOT AVAILABLE</h2>
@@ -59,11 +58,11 @@ export const Home = () => {
 											<tr className=" hover-gray">
 												{new Array(daysInCohort).fill(null).map((e, i) => (
 													<td key={i} className="p-1 h-50px">
-														{store.dailyAvg[`day${i}`] === undefined ? (
+														{store.dailyAvg[`day${i + 1}`] === undefined ? (
 															<i className="fas fa-exclamation-circle text-sand fa-lg cursor-pointer" />
 														) : (
 															<span>
-																{store.dailyAvg[`day${i}`] >= 85 ? (
+																{store.dailyAvg[`day${i + 1}`] >= 85 ? (
 																	<i className="fas fa-thumbs-up font-size-25px text-darkgreen" />
 																) : (
 																	<i className="fas fa-thumbs-down font-size-25px text-darkred" />
@@ -78,9 +77,11 @@ export const Home = () => {
 												<tr key={i} className="hover-gray">
 													{new Array(daysInCohort).fill(null).map((e, i) => (
 														<td key={i} className="p-1 h-50px">
-															{!data.attendance[`day${i}`] ? (
-																<i className="fas fa-exclamation-circle text-sand fa-lg cursor-pointer" />
-															) : data.attendance[`day${i}`].slug.includes(
+															{!data.attendance[`day${i + 1}`] ? (
+																<Popover body={<div className="">Day {i}</div>}>
+																	<i className="fas fa-exclamation-circle text-sand fa-lg cursor-pointer" />
+																</Popover>
+															) : data.attendance[`day${i + 1}`].slug.includes(
 																"unattendance"
 															) ? (
 																<i className="fas fa-thumbs-down font-size-25px text-darkred" />
