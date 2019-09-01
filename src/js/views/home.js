@@ -21,7 +21,7 @@ export const Home = () => {
 						{store.students.length === 0 ? (
 							<h2 className="text-center my-5">STUDENT INFORMATION NOT AVAILABLE</h2>
 						) : (
-							<div style={{ width: "1000px", overflow: "scroll" }}>
+							<React.Fragment>
 								<table>
 									<tbody>
 										<tr>
@@ -39,9 +39,27 @@ export const Home = () => {
 													%
 												</b>
 											</td>
-											{new Array(daysInCohort).fill(null).map((e, i) => {
-												return (
-													<td key={i} className="p-1">
+										</tr>
+										{store.students.map((e, i) => (
+											<tr key={i}>
+												<td
+													className="border rounded my-2 d-flex justify-content-between mr-4 h-50px
+			align-items-center">
+													<span className="p-2">
+														{e.first_name} {e.last_name}
+													</span>
+													<span className="p-2">{Math.round(e.attendance.avg)}%</span>
+												</td>
+											</tr>
+										))}
+									</tbody>
+								</table>
+								<div style={{ width: "1000px", overflow: "scroll" }}>
+									<table>
+										<tbody>
+											{new Array(daysInCohort).fill(null).map((e, i) => (
+												<tr key={i}>
+													<td className="p-1">
 														{store.dailyAvg[`day${i}`] === undefined ? (
 															<i className="fas fa-exclamation-circle text-sand fa-lg cursor-pointer" />
 														) : (
@@ -54,16 +72,16 @@ export const Home = () => {
 															</span>
 														)}
 													</td>
-												);
-											})}
-										</tr>
+												</tr>
+											))}
 
-										{store.students.map((e, i) => {
-											return <Student key={i} studentData={e} daysInCohort={daysInCohort} />;
-										})}
-									</tbody>
-								</table>
-							</div>
+											{store.students.map((e, i) => {
+												return <Student key={i} studentData={e} daysInCohort={daysInCohort} />;
+											})}
+										</tbody>
+									</table>
+								</div>
+							</React.Fragment>
 						)}
 					</div>
 				);
