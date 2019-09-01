@@ -1,6 +1,5 @@
 import React from "react";
 import { Context } from "../store/appContext";
-import Student from "../component/student";
 
 export const Home = () => {
 	return (
@@ -21,14 +20,14 @@ export const Home = () => {
 						{store.students.length === 0 ? (
 							<h2 className="text-center my-5">STUDENT INFORMATION NOT AVAILABLE</h2>
 						) : (
-							<React.Fragment>
-								<table>
+							<div>
+								<table className="d-inline-block">
 									<tbody>
 										<tr>
-											<td className="border rounded my-2 d-flex justify-content-between mr-4">
-												<b className="p-2" style={{ width: "200px" }}>
-													Everyone
-												</b>
+											<td
+												className="border rounded d-flex justify-content-between 
+													mr-4 h-50px align-items-center border-box">
+												<b className="p-2 w-200px">Everyone</b>
 												<b className="p-2">
 													{Math.round(
 														store.students.reduce(
@@ -43,8 +42,8 @@ export const Home = () => {
 										{store.students.map((e, i) => (
 											<tr key={i}>
 												<td
-													className="border rounded my-2 d-flex justify-content-between mr-4 h-50px
-			align-items-center">
+													className="border rounded d-flex justify-content-between mr-4 h-50px
+														align-items-center border-box">
 													<span className="p-2">
 														{e.first_name} {e.last_name}
 													</span>
@@ -54,12 +53,12 @@ export const Home = () => {
 										))}
 									</tbody>
 								</table>
-								<div style={{ width: "1000px", overflow: "scroll" }}>
-									<table>
+								<div className="d-inline-block" style={{ width: "700px", overflow: "scroll" }}>
+									<table style={{ "border-spacing": "10px 0" }}>
 										<tbody>
-											{new Array(daysInCohort).fill(null).map((e, i) => (
-												<tr key={i}>
-													<td className="p-1">
+											<tr>
+												{new Array(daysInCohort).fill(null).map((e, i) => (
+													<td key={i} className="p-1 my-2 h-50px border-box">
 														{store.dailyAvg[`day${i}`] === undefined ? (
 															<i className="fas fa-exclamation-circle text-sand fa-lg cursor-pointer" />
 														) : (
@@ -72,16 +71,30 @@ export const Home = () => {
 															</span>
 														)}
 													</td>
+												))}
+											</tr>
+
+											{store.students.map((data, i) => (
+												<tr key={i}>
+													{new Array(daysInCohort).fill(null).map((e, i) => (
+														<td key={i} className="p-1 h-50px border-box border">
+															{!data.attendance[`day${i}`] ? (
+																<i className="fas fa-exclamation-circle text-sand fa-lg cursor-pointer" />
+															) : data.attendance[`day${i}`].slug.includes(
+																"unattendance"
+															) ? (
+																<i className="fas fa-thumbs-down font-size-25px text-darkred" />
+															) : (
+																<i className="fas fa-thumbs-up font-size-25px text-darkgreen" />
+															)}
+														</td>
+													))}
 												</tr>
 											))}
-
-											{store.students.map((e, i) => {
-												return <Student key={i} studentData={e} daysInCohort={daysInCohort} />;
-											})}
 										</tbody>
 									</table>
 								</div>
-							</React.Fragment>
+							</div>
 						)}
 					</div>
 				);
