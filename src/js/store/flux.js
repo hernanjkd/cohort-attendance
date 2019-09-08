@@ -4,8 +4,7 @@ const getState = ({ setStore, getActions }) => {
 			cohorts: [],
 			students: [],
 			dailyAvg: {},
-			totalAvg: null,
-			zoom: false
+			totalAvg: null
 		},
 		actions: {
 			getStudentsAndActivities: cohortSlug => {
@@ -15,7 +14,9 @@ const getState = ({ setStore, getActions }) => {
 
 				// Fetch students from cohort
 				fetch(url, { cache: "no-cache" })
-					.then(response => response.json())
+					.then(response => {
+						return response.json();
+					})
 					.then(({ data: students }) => {
 						getActions("formatNames")(students);
 						// Fetch all activities from cohort
