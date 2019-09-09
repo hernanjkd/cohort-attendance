@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 const getState = ({ setStore, getActions }) => {
 	return {
 		store: {
@@ -7,22 +9,23 @@ const getState = ({ setStore, getActions }) => {
 			totalAvg: null
 		},
 		actions: {
-			getStudentsAndActivities: cohortSlug => {
+			getStudentsAndActivities: (cohortSlug, props) => {
 				let url = `https://api.breatheco.de/students/cohort/${cohortSlug}?access_token=${
 					process.env.ACCESS_TOKEN
-				}`;
+					}`;
 
 				// Fetch students from cohort
 				fetch(url, { cache: "no-cache" })
 					.then(response => {
-						return response.json();
+						if (!response.ok)
+							return response.json();
 					})
 					.then(({ data: students }) => {
 						getActions("formatNames")(students);
 						// Fetch all activities from cohort
 						url = `https://assets.breatheco.de/apis/activity/cohort/${cohortSlug}?access_token=${
 							process.env.ASSETS_TOKEN
-						}`;
+							}`;
 						fetch(url, { cache: "no-cache" })
 							.then(response => response.json())
 							.then(activities => {
@@ -130,5 +133,9 @@ const getState = ({ setStore, getActions }) => {
 		}
 	};
 };
+
+getState.propTypes = {
+	history: PropTypes.object
+}
 
 export default getState;
