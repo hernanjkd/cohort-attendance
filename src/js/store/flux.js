@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
 const getState = ({ setStore, getActions }) => {
 	return {
@@ -12,12 +12,15 @@ const getState = ({ setStore, getActions }) => {
 			getStudentsAndActivities: (cohortSlug, props) => {
 				let url = `https://api.breatheco.de/students/cohort/${cohortSlug}?access_token=${
 					process.env.ACCESS_TOKEN
-					}`;
+				}`;
 
 				// Fetch students from cohort
 				fetch(url, { cache: "no-cache" })
 					.then(response => {
-						if (!response.ok) props.history.push('/renew_access_token');
+						if (!response.ok) {
+							props.history.push("/?error=renew_access_token");
+							throw Error;
+						}
 						return response.json();
 					})
 					.then(({ data: students }) => {
@@ -25,7 +28,7 @@ const getState = ({ setStore, getActions }) => {
 						// Fetch all activities from cohort
 						url = `https://assets.breatheco.de/apis/activity/cohort/${cohortSlug}?access_token=${
 							process.env.ASSETS_TOKEN
-							}`;
+						}`;
 						fetch(url, { cache: "no-cache" })
 							.then(response => response.json())
 							.then(activities => {
@@ -136,6 +139,6 @@ const getState = ({ setStore, getActions }) => {
 
 getState.propTypes = {
 	history: PropTypes.object
-}
+};
 
 export default getState;

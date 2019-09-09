@@ -17,8 +17,11 @@ const months = [
 	"December"
 ];
 
-export default props => {
+export const Home = props => {
 	const [zoom, setZoom] = useState("font-size-10px");
+
+	const params = new URLSearchParams(location.search);
+
 	return (
 		<Context.Consumer>
 			{({ store, actions }) => {
@@ -28,14 +31,18 @@ export default props => {
 				const thumbsDown = <i className={`fas fa-thumbs-down text-darkred cursor-pointer ${zoom}`} />;
 				return (
 					<div className="mt-2 p-3 line-height-1">
-						<select className="mb-4" onChange={e => actions.getStudentsAndActivities(e.target.value, props)}>
+						<select
+							className="mb-4"
+							onChange={e => actions.getStudentsAndActivities(e.target.value, props)}>
 							{store.cohorts.map((e, i) => (
 								<option key={i} value={e.slug}>
 									{e.name}
 								</option>
 							))}
 						</select>
-						{store.students.length === 0 ? (
+						{params.has("error") ? (
+							<h2 className="text-center my-5">RENEW ACCESS TOKEN</h2>
+						) : store.students.length === 0 ? (
 							<h2 className="text-center my-5">STUDENT INFORMATION NOT AVAILABLE</h2>
 						) : (
 							<div>

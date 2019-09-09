@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 
-import Home from "./views/home";
+import { Home } from "./views/home";
 import injectContext from "./store/appContext";
 
 export class Layout extends React.Component {
@@ -12,7 +12,7 @@ export class Layout extends React.Component {
 				<BrowserRouter>
 					<ScrollToTop>
 						<Switch>
-							<Route exact path="/:error" component={Home} />
+							<Route exact path="/" component={Home} />
 							<Route render={() => <h1>Not found!</h1>} />
 						</Switch>
 					</ScrollToTop>
