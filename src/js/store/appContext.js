@@ -20,7 +20,7 @@ const injectContext = PassedComponent => {
 
 		componentDidMount() {
 			// Get all cohorts
-			const url = `https://api.breatheco.de/cohorts/?access_token=${process.env.ACCESS_TOKEN}`;
+			const url = `https://api.breatheco.de/cohorts/?access_token=`;
 			fetch(url, { cache: "no-cache" })
 				.then(response => response.json())
 				.then(data => {
