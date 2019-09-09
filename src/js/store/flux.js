@@ -17,8 +17,8 @@ const getState = ({ setStore, getActions }) => {
 				// Fetch students from cohort
 				fetch(url, { cache: "no-cache" })
 					.then(response => {
-						if (!response.ok)
-							return response.json();
+						if (!response.ok) props.history.push('/renew_access_token');
+						return response.json();
 					})
 					.then(({ data: students }) => {
 						getActions("formatNames")(students);

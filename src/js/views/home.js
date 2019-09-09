@@ -17,7 +17,7 @@ const months = [
 	"December"
 ];
 
-export const Home = () => {
+export default props => {
 	const [zoom, setZoom] = useState("font-size-10px");
 	return (
 		<Context.Consumer>
@@ -28,7 +28,7 @@ export const Home = () => {
 				const thumbsDown = <i className={`fas fa-thumbs-down text-darkred cursor-pointer ${zoom}`} />;
 				return (
 					<div className="mt-2 p-3 line-height-1">
-						<select className="mb-4" onChange={e => actions.getStudentsAndActivities(e.target.value)}>
+						<select className="mb-4" onChange={e => actions.getStudentsAndActivities(e.target.value, props)}>
 							{store.cohorts.map((e, i) => (
 								<option key={i} value={e.slug}>
 									{e.name}
