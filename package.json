@@ -76,6 +76,7 @@
 		"react-polyfills": "0.0.1",
 		"react-popover": "^0.5.10",
 		"react-router": "^4.3.1",
-		"react-router-dom": "^4.3.1"
+		"react-router-dom": "^4.3.1",
+		"serialize-javascript": "^3.1.0"
 	}
 }
