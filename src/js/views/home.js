@@ -2,21 +2,6 @@ import React, { useState } from "react";
 import { Context } from "../store/appContext";
 import Popover from "../component/popover";
 
-const months = [
-	"January",
-	"February",
-	"March",
-	"April",
-	"May",
-	"June",
-	"July",
-	"August",
-	"September",
-	"October",
-	"November",
-	"December"
-];
-
 export const Home = props => {
 	const [zoom, setZoom] = useState("font-size-10px");
 
