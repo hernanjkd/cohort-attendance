@@ -33,7 +33,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 								// Merge students with their activities
 								let stuAct = {}; // {student_id: {day0: unattendance, day1: attendance, ...}}
 								let dailyAvg = {}; // {day0: 89%, day1: 61%, ...}
-
+								console.log(activities);
 								activities.log.filter(e => e.slug.includes("attendance")).forEach(e => {
 									let day = `day${JSON.parse(e.data).day}`;
 									// Create temp obj to store all activities by student id
